@@ -2,7 +2,7 @@
 
 -
 
-# Issues
+# Linked Issues
 
 -
 
