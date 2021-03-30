@@ -3,56 +3,47 @@ const expect = chai.expect;
 const User = require('../src/User');
 
 describe('User', () => {
-  const user = new User;
-  const user1 = {
-    "id": 1,
-    "name": "Shay Mitchel",
-    "address": "809 Cherry Lane Trail, Minneapolis MN 55125",
-    "email":"shay.mitchel@gmail.com",
-    "strideLength": 4.5,
-    "dailyStepGoal": 10000,
-    "friends": [
-      19,
-      9,
-      31,
-    ]
-  };
-  console.log(user) 
+    const user1 = new User(1, "Shay Mitchel", "809 Cherry Lane Trail, Minneapolis MN 55125", "shay.mitchel@gmail.com", 4.5, 10000, [19, 9, 31]);
 
   it('should be a function', () => {
     expect(User).to.be.a('function'); 
   });
 
   it('should be an instance of User', () => {
-    expect(user).to.be.an instanceof(User);
+    expect(user1).to.be.an instanceof(User);
   });
 
-  it.skip('should have an id', () => {
-    expect(user.id).to.equal(1);
+  it('should have an id', () => {
+    expect(user1.id).to.equal(1);
   });
 
-  it.skip('should store a name', () => {
-    expect(user.name).to.equal('Shay Mitchel');
+  it('should store a name', () => {
+    expect(user1.name).to.equal('Shay Mitchel');
   });
 
-  it.skip('should have a registered email address', () => {
-    expect(user.email).to.equal('shay.mitchel@gmail.com')
+  it('should have an address', () => {
+    expect(user1.address).to.equal('809 Cherry Lane Trail, Minneapolis MN 55125');
   });
 
-  it.skip('should have a an updated stride length', () => {
-    expect(user.name).to.equal('Shay Mitchel')
+  it('should have a registered email address', () => {
+    expect(user1.email).to.equal('shay.mitchel@gmail.com');
   });
 
-  it.skip('should have a daily step goal', () => {
-    expect(user.name).to.equal('Shay Mitchel')
+  it('should have a an updated stride length', () => {
+    expect(user1.strideLength).to.equal(4.5);
   });
 
-  it.skip('should have a list of friends', () => {
-    expect(user.name).to.equal('Shay Mitchel')
+  it('should have a daily step goal', () => {
+    expect(user1.dailyStepGoal).to.equal(10000);
   });
 
-  it.skip('should answer with their name', () => {
-    user.sayName();
-    expect(user.sayName()).to.be.equal('Shay');
+  it('should have a list of friends', () => {
+    expect(user1.friends).to.deep.equal([19, 9, 31]);
   });
-});
+
+  it('should answer with their name', () => {
+
+    user1.sayName();
+    expect(user1.sayName()).to.deep.equal('Shay');
+  });
+}); 
