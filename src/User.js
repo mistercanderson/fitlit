@@ -1,1 +1,5 @@
-module.exports = User;
+class User {
+
+};
+
+module.exports = User; 
