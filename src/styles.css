@@ -13,6 +13,29 @@ body {
   align-items: center;
 }
 
+.color-stripes {
+  position: absolute;
+  z-index: -1;
+  width: 500%;
+  height: 25%;
+  display: flex;
+  flex-direction: column;
+  transform: rotate(-20deg) translateY(7em);
+}
+
+.stripe-one {
+  flex-grow: 1;
+  background: #f0c929;
+}
+.stripe-two {
+  flex-grow: 1;
+  background: #f48b29;
+}
+.stripe-three {
+  flex-grow: 1;
+  background: #ac0d0d;
+}
+
 /* 
 color stripes 
 main: #fbe6c2, #f0c929, #f48b29, #ac0d0d
@@ -66,23 +89,25 @@ main {
   height: 100%;
   width: 100%;
   max-height: 30em;
+  background-color: rgba(194, 202, 193, 0.774);
+  color: white;
+  transition: background-color .2s linear;
 }
 
 .data-block>h3 {
-  color: white;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 3px;
 }
 
-.activity-tracker {
+.activity-tracker:hover {
   background-color: #d92027;
 }
 
-.hydration-station {
+.hydration-station:hover {
   background-color: #7579e7;
 }
 
-.sleep-hygiene {
+.sleep-hygiene:hover {
   background-color: #151515;
 }
