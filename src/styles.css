@@ -14,10 +14,10 @@ body {
 }
 
 .color-stripes {
-  position: absolute;
+  position: fixed;
   z-index: -1;
-  width: 500%;
-  height: 25%;
+  width: 150%;
+  height: 200px;
   display: flex;
   flex-direction: column;
   transform: rotate(-20deg) translateY(7em);
@@ -64,15 +64,15 @@ li {
 }
 
 main {
-  margin-top: 2em;
+  margin: 2em 0;
   height: 80%;
   width: 80%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   /* grid-template-rows: repeat(2, 300px); */
+  grid-area: auto;
   grid-gap: .8em;
   grid-auto-flow: dense;
-  align-items: flex-start;
 }
 
 .user-greeting {
@@ -80,6 +80,7 @@ main {
   letter-spacing: -.03em;
   text-shadow: 1px 2px 7px #c7b493;
   font-weight: 400;
+  margin-bottom: 0;
 }
 
 .data-block {
@@ -100,9 +101,9 @@ main {
   letter-spacing: 3px;
 }
 
-.activity-tracker {
+/* .activity-tracker {
   background: url(../assets/workout_shoe.png) center;
-}
+} */
 
 .activity-tracker:hover {
   background-color: #d92027;
