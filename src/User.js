@@ -1,5 +1,5 @@
 class User {
-  constructor(id, name, address, email, strideLength, dailyStepGoal, friends) {
+  constructor({ id, name, address, email, strideLength, dailyStepGoal, friends }) {
     this.id = id;
     this.name = name;
     this.address = address;
@@ -10,7 +10,7 @@ class User {
   }
 
   sayName() {
-    const firstName = this.name.split(' ').slice(0, 1).join(' ');
+    const firstName = this.name.split(' ')[0];
     return firstName;
   }
 };

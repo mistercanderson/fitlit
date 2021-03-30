@@ -1,16 +1,17 @@
 const chai = require('chai');
 const expect = chai.expect;
 const User = require('../src/User');
+const fakeData = require('../data/fakeData');
 
 describe('User', () => {
-  const user1 = new User(1, "Shay Mitchel", "809 Cherry Lane Trail, Minneapolis MN 55125", "shay.mitchel@gmail.com", 4.5, 10000, [19, 9, 31]);
+  const user1 = new User(fakeData[0]);
 
   it('should be a function', () => {
     expect(User).to.be.a('function'); 
   });
 
   it('should be an instance of User', () => {
-    expect(user1).to.be.an instanceof(User);
+    expect(user1).to.be.an.instanceof(User);
   });
 
   it('should have an id', () => {
@@ -22,11 +23,11 @@ describe('User', () => {
   });
 
   it('should have an address', () => {
-    expect(user1.address).to.equal('809 Cherry Lane Trail, Minneapolis MN 55125');
+    expect(user1.address).to.equal('809 Cherry Lane Trail, Minneapolis, MN 55125');
   });
 
   it('should have a registered email address', () => {
-    expect(user1.email).to.equal('shay.mitchel@gmail.com');
+    expect(user1.email).to.equal('bad.and.boujee@gmail.com');
   });
 
   it('should have a an updated stride length', () => {
