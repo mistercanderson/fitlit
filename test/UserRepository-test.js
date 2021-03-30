@@ -1,22 +1,12 @@
 const chai = require('chai');
 const expect = chai.expect;
 const UserRepository = require('../src/UserRepository');
-
+const User = require('../src/User');
+const fakeData = require('../data/fakeData');
 
 describe('UserRepository', () => {
   let userRepo;
-  const fakeData = [
-    {
-      "id": 1,
-      "name": "Shay Mitchel",
-      "address": "809 Cherry Lane Trail, Minneapolis MN 55125",
-      "email": "bad.and.boujee@gmail.com",
-      "strideLength": 4.5,
-      "dailyStepGoal": 10000,
-      "friends": [19, 9, 31]
-    }
-  ];
-  
+
   beforeEach(() => {
     userRepo = new UserRepository(fakeData);
   });
@@ -38,4 +28,10 @@ describe('UserRepository', () => {
     userRepo.allUsersAverageSteps();
     expect(userRepo.allUsersAverageSteps()).to.be.equal(10000);
   }); 
+
+  it('should hold instances of User class in its userList', () => {
+    userRepo.convertUserList();
+
+    expect(userRepo.userList[0]).to.be.an.instanceof(User)
+  })
 });

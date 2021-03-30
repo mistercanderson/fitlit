@@ -1,3 +1,5 @@
+const User = require('../src/User');
+
 class UserRepository {
   constructor(users) {
     this.userList = users;
@@ -16,8 +18,10 @@ class UserRepository {
   }
 
   convertUserList() {
-    this.userList.map((user) => {
-      user = new User;
+    this.userList = this.userList.map((user) => {
+      let { id, name, address, email, strideLength, dailyStepGoal, friends } = user;
+      user = new User(id, name, address, email, strideLength, dailyStepGoal,friends);
+      return user;
     })
   }
 }
