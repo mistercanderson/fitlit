@@ -9,6 +9,7 @@ body {
   background-color: #fbe6c2;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 
@@ -23,30 +24,32 @@ sleep: #151515 #301b3f #3c415c #b4a5a5
 nav {
   width: 80%;
   max-width: 728px;
-  min-width: 456px;
 }
 
-nav>ul {
+ul {
+  padding: 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  align-self: center;
-  justify-self: center;
 }
 
 li {
   display: block;
+  width: 10em;
   font-weight: 100;
-  letter-spacing: .3em;
+  text-align: center;
 }
 
 main {
-  max-height: 80%;
+  margin-top: 2em;
+  height: 80%;
   width: 80%;
   display: grid;
-  /* grid-template-columns: repeat(auto-fill, 1fr); */
-  column-gap: 2em;
-  row-gap: 2em;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  /* grid-template-rows: repeat(2, 300px); */
+  grid-gap: .8em;
+  grid-auto-flow: dense;
+  align-items: flex-start;
 }
 
 .user-greeting {
@@ -60,12 +63,16 @@ main {
   display: flex;
   justify-content: center;
   border-radius: 10px;
-  height: 15em;
+  height: 100%;
   width: 100%;
-  font-weight: 800;
+  max-height: 30em;
+}
+
+.data-block>h3 {
+  color: white;
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 3px;
-  color: white;
 }
 
 .activity-tracker {
