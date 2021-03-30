@@ -100,6 +100,10 @@ main {
   letter-spacing: 3px;
 }
 
+.activity-tracker {
+  background: url(../assets/workout_shoe.png) center;
+}
+
 .activity-tracker:hover {
   background-color: #d92027;
 }
