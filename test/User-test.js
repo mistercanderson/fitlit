@@ -3,7 +3,7 @@ const expect = chai.expect;
 const User = require('../src/User');
 
 describe('User', () => {
-    const user1 = new User(1, "Shay Mitchel", "809 Cherry Lane Trail, Minneapolis MN 55125", "shay.mitchel@gmail.com", 4.5, 10000, [19, 9, 31]);
+  const user1 = new User(1, "Shay Mitchel", "809 Cherry Lane Trail, Minneapolis MN 55125", "shay.mitchel@gmail.com", 4.5, 10000, [19, 9, 31]);
 
   it('should be a function', () => {
     expect(User).to.be.a('function'); 
@@ -15,7 +15,7 @@ describe('User', () => {
 
   it('should have an id', () => {
     expect(user1.id).to.equal(1);
-  });
+  });  
 
   it('should store a name', () => {
     expect(user1.name).to.equal('Shay Mitchel');

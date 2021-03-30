@@ -675,5 +675,3 @@ const userData = [
     ]
   }
 ];
-
-// modeule.exports = User;
