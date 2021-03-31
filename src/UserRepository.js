@@ -1,6 +1,3 @@
-// const User = require('../src/User');
-// import User from '../src/User';
-
 class UserRepository {
   constructor(users) {
     this.userList = users;

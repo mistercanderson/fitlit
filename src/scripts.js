@@ -1,5 +1,11 @@
 const userRepo = new UserRepository(userData);
-const currentUser = new User(userRepo.userList[0]);
+// const currentUser = new User(userRepo.userList[0]);
+let currentUser;
+const userGreeting = document.querySelector('.user-greeting');
+const userAverageSteps = document.querySelector('.user-average-steps');
+
+// maybe put this into an object of nav bar tabs 👇
+const profileTab = document.getElementById('profileTab');
 
 const cards = {
   user: document.getElementById('userCard'),
@@ -8,9 +14,9 @@ const cards = {
   sleep: document.getElementById('sleepHygiene')
 }
 
-const profileTab = document.getElementById('profileTab');
 
 window.addEventListener('click', (event) => displayUserInfo(currentUser, event))
+window.addEventListener('load', displayWelcome);
 
 function displayUserInfo(user, event) {
   const userKeys = Object.keys(user);
@@ -78,3 +84,23 @@ function removeCamelCase(key) {
   })
   return newPhrase.join(' ')
 }
+
+
+const getRandomNum = (array) => {
+  return Math.floor(Math.random() * array.length)
+};
+
+const generateRandomUser = () => {
+  let randomUser = userData[getRandomNum(userData)];
+  let user = new User(randomUser);
+  return user;
+};
+
+function displayWelcome() {
+  currentUser = generateRandomUser();
+
+  userGreeting.innerHTML += `
+  <h1>Let's Get Physical, ${currentUser.sayName()}!</h1>
+  <h2>${userRepo.allUsersAverageSteps()} is the average step goal amongst all users.</h2>
+  `
+};

@@ -13,9 +13,8 @@ class User {
     const firstName = this.name.split(' ')[0];
     return firstName;
   }
-};
+}
 
 if (typeof module !== 'undefined') {
   module.exports = User;
 }
-// export default User;
