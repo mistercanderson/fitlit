@@ -1,6 +1,11 @@
 const fakeData2 = [
   {
     "userID": 1,
+    "date": "2019/06/14",
+    "numOunces": 70
+  },  
+  {
+    "userID": 1,
     "date": "2019/06/15",
     "numOunces": 95
   },
