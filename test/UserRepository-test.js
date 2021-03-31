@@ -1,7 +1,6 @@
 const chai = require('chai');
 const expect = chai.expect;
 const UserRepository = require('../src/UserRepository');
-const User = require('../src/User');
 const fakeData = require('../data/fakeData');
 
 describe('UserRepository', () => {
@@ -28,10 +27,4 @@ describe('UserRepository', () => {
     userRepo.allUsersAverageSteps();
     expect(userRepo.allUsersAverageSteps()).to.be.equal(10000);
   }); 
-
-  it('should hold instances of User class in its userList', () => {
-    userRepo.convertUserList();
-
-    expect(userRepo.userList[0]).to.be.an.instanceof(User)
-  })
 });
