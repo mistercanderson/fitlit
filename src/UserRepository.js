@@ -1,5 +1,3 @@
-const User = require('../src/User');
-
 class UserRepository {
   constructor(users) {
     this.userList = users;
@@ -16,14 +14,8 @@ class UserRepository {
   }, 0);
   return sum / this.userList.length;
   }
-
-  convertUserList() {
-    this.userList = this.userList.map((user) => {
-      let { id, name, address, email, strideLength, dailyStepGoal, friends } = user;
-      user = new User(id, name, address, email, strideLength, dailyStepGoal,friends);
-      return user;
-    })
-  }
 }
 
-module.exports = UserRepository;
+if (typeof module !== 'undefined') {
+  module.exports = UserRepository;
+}
