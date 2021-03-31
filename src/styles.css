@@ -27,10 +27,12 @@ body {
   flex-grow: 1;
   background: #f0c929;
 }
+
 .stripe-two {
   flex-grow: 1;
   background: #f48b29;
 }
+
 .stripe-three {
   flex-grow: 1;
   background: #ac0d0d;
@@ -68,6 +70,7 @@ main {
   height: 80%;
   width: 80%;
   display: grid;
+  justify-items: center;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   /* grid-template-rows: repeat(2, 300px); */
   grid-area: auto;
@@ -93,6 +96,7 @@ main {
   height: 100%;
   width: 100%;
   max-height: 30em;
+  max-width: 30em;
   background-color: rgba(194, 202, 193, 0.774);
   color: white;
   transition: background-color .2s linear;
@@ -104,6 +108,20 @@ main {
   letter-spacing: 3px;
   margin: .5em 0 0 0;
   height: 1rem;
+}
+
+.user-card {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  padding-left: 1em;
+  /* color: rgb(53, 64, 75); */
+}
+
+.user-card>div {
+  align-self: flex-end;
+  padding: 2% 5% 0 0;
+  font-size: .8em;
 }
 
 /* .activity-tracker {
@@ -120,4 +138,8 @@ main {
 
 .sleep-hygiene:hover {
   background-color: #151515;
+}
+
+.hidden {
+  display: none;
 }
