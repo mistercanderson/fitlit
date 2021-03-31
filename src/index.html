@@ -13,18 +13,23 @@
 <body>
   <nav>
     <ul>
-      <li class="profile">Profile</li>
-      <li class="friends">Friends</li>
-      <li class="ranking">Ranking</li>
-      <li class="goals">Goals</li>
+      <li id="profileTab">Profile</li>
+      <li id="friendsTab">Friends</li>
+      <li id="rankingTab">Ranking</li>
+      <li id="goalsTab">Goals</li>
     </ul>
   </nav>
-  <!-- <h1 class="user-greeting">Let's Get Physical, Luisa!</h1> -->
-  <section class="user-greeting"></section>
-  <section class="user-average-steps"></section>
-  <header class="user-card data-block" id="userCard">
-  </header>
+  <header class="user-greeting"></header>
   <main class="dashboard" id="dashboard">
+    <section class="user-card data-block hidden" id="userCard">
+      <div id="closeButton">❌</div>
+      <p id="name"></p>
+      <p id="address"></p>
+      <p id="email"></p>
+      <p id="strideLength"></p>
+      <p id="dailyStepGoal"></p>
+      <p id="friends"></p>
+    </section>
     <section class="activity-tracker data-block" id="activityTracker">
       <h3>Activity Tracker</h3>
     </section>
