@@ -11,11 +11,11 @@ const testUsers = new UserRepository(userData);
 
 window.addEventListener('load', displayWelcome);
 
-function getRandomNum (array) {
+const getRandomNum = (array) => {
   return Math.floor(Math.random() * array.length)
 };
 
-function returnCurrentUser() {
+const returnCurrentUser = () => {
   let randomUser = userData[getRandomNum(userData)];
   let user = new User(randomUser);
   return user;
@@ -30,3 +30,11 @@ function displayWelcome() {
   `
 };
 
+function displayWelcome() {
+  let user = returnCurrentUser();
+
+  userGreeting.innerHTML += `
+  <h1>Let's Get Physical, ${user.sayName()}!</h1>
+  <h2>${testUsers.allUsersAverageSteps()} is the average step goal amongst all users.</h2>
+  `
+};
