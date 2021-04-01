@@ -100,7 +100,7 @@ const generateRandomUser = () => {
 
 const loadFunctions = () => {
   displayWelcome();
-  renderHydrationData(currentDate);
+  renderHydrationChart(currentDate);
 };
 
 function displayWelcome() {
@@ -111,11 +111,45 @@ function displayWelcome() {
   <h2>${userRepo.allUsersAverageSteps()} is the average step goal amongst all users.</h2>
   `;
 }
+// Global chart options
 
-function renderHydrationData(date) {
-  const userHydration = new Hydration(currentUser.id, hydrationData);
-  let dailyOunces = userHydration.calculateDailyOunces(date);
-  let weeklyOunces = userHydration.calculateWeeklyOunces(date);
-  cards.hydration.innerHTML += `<p>${currentUser.sayName()}, you drank ${dailyOunces} oz. of water today!</p>`;
-  cards.hydration.innerHTML += `<p>You've had ${weeklyOunces} oz. so far this week!</p>`;
+function renderHydrationChart(date) {
+  Chart.defaults.global.defaultFontColor = 'white';
+  Chart.defaults.global.defaultFontStyle = 'italic';
+  Chart.defaults.global.defaultFontSize = 18;
+  Chart.defaults.global.animationDuration = .5;
+  Chart.defaults.global.animationEasing = 'easeInBounce'
+  cards.hydration.innerHTML += `<canvas id="hydrationChart"></canvas>`
+  const hydrationElement = document.getElementById('hydrationChart').getContext('2d')
+  const userHydrationData = new Hydration(currentUser.id, hydrationData);
+  let dailyOunces = userHydrationData.calculateDailyOunces(date);
+  let weeklyOunces = userHydrationData.calculateWeeklyOunces(date);
+  let hydrationChart = new Chart(hydrationElement, {
+    type: 'doughnut',
+    data: {
+      labels: ['Today', 'This Week'],
+      datasets: [{
+        label: 'Ounces of Water Consumed',
+        data: [`${dailyOunces}`, `${weeklyOunces}`],
+        backgroundColor: ['#9ab3f5', '#a3d8f4'],
+        borderWidth: 0,
+        // borderColor: 'black',
+        // hoverBorderWidth: 3,
+        hoverBorderColor: '#b9fffc',
+        hoverBorderWidth: 1
+      }] 
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Ounces of Water Consumed',
+        fontStyle: '',
+      },
+      legend: {
+        position: 'right',
+      },
+      layout: {},
+      tooltips: {},
+    }, 
+  })
 }
