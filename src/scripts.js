@@ -18,7 +18,7 @@ const cards = {
 
 
 window.addEventListener('click', (event) => displayUserInfo(currentUser, event))
-window.addEventListener('load', displayWelcome);
+window.addEventListener('load', () => loadFunctions());
 
 function displayUserInfo(user, event) {
   const userKeys = Object.keys(user);
@@ -98,6 +98,11 @@ const generateRandomUser = () => {
   return user;
 };
 
+const loadFunctions = () => {
+  displayWelcome();
+  renderHydrationData(currentDate);
+}
+
 function displayWelcome() {
   currentUser = generateRandomUser();
 
@@ -111,6 +116,6 @@ function renderHydrationData(date) {
   const userHydration = new Hydration(currentUser.id, hydrationData);
   let dailyOunces = userHydration.calculateDailyOunces(date);
   let weeklyOunces = userHydration.calculateWeeklyOunces(date);
-  cards.hydration.innerHTML += `<p>${currentUser.sayName()}, you drank ${dailyOunces} ounces of water today!</p>`;
-  cards.hydration.innerHTML += `<p>You've had ${weeklyOunces} ounces of water this week!</p>`
+  cards.hydration.innerHTML += `<p>${currentUser.sayName()}, you drank ${dailyOunces} oz. of water today!</p>`;
+  cards.hydration.innerHTML += `<p>You've had ${weeklyOunces} oz. so far this week!</p>`
 };
