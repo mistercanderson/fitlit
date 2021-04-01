@@ -1,10 +1,10 @@
 const chai = require('chai');
 const expect = chai.expect;
 const User = require('../src/User');
-const fakeData = require('../data/fakeData');
+const fakeUserData = require('../data/fakeUserData');
 
 describe('User', () => {
-  const user1 = new User(fakeData[0]);
+  const user1 = new User(fakeUserData[0]);
 
   it('should be a function', () => {
     expect(User).to.be.a('function'); 
