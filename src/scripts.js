@@ -1,6 +1,8 @@
+// const Hydration = require("./Hydration");
+
 const userRepo = new UserRepository(userData);
-// const currentUser = new User(userRepo.userList[0]);
 let currentUser;
+const currentDate = '2019/09/22'
 const userGreeting = document.querySelector('.user-greeting');
 const userAverageSteps = document.querySelector('.user-average-steps');
 
@@ -103,4 +105,12 @@ function displayWelcome() {
   <h1>Let's Get Physical, ${currentUser.sayName()}!</h1>
   <h2>${userRepo.allUsersAverageSteps()} is the average step goal amongst all users.</h2>
   `
+};
+
+function renderHydrationData(date) {
+  const userHydration = new Hydration(currentUser.id, hydrationData);
+  let dailyOunces = userHydration.calculateDailyOunces(date);
+  let weeklyOunces = userHydration.calculateWeeklyOunces(date);
+  cards.hydration.innerHTML += `<p>${currentUser.sayName()}, you drank ${dailyOunces} ounces of water today!</p>`;
+  cards.hydration.innerHTML += `<p>You've had ${weeklyOunces} ounces of water this week!</p>`
 };

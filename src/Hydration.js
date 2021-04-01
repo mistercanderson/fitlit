@@ -28,7 +28,7 @@ class Hydration {
     const userData = this.userData.reverse()
     const index = userData.indexOf(day);
     const week = userData.splice(index, 7);
-    const weeklyOunces = week.map(({date, numOunces}) => ({date, numOunces}));
+    const weeklyOunces = week.map(day => day.numOunces).reduce((a,b) => a+ b);
     return weeklyOunces;
   }
 }
