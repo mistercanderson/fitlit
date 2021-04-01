@@ -1,13 +1,15 @@
-// const Hydration = require("./Hydration");
-
 const userRepo = new UserRepository(userData);
 let currentUser;
 const currentDate = '2019/09/22';
 const userGreeting = document.querySelector('.user-greeting');
 const userAverageSteps = document.querySelector('.user-average-steps');
 
-// maybe put this into an object of nav bar tabs 👇
-const profileTab = document.getElementById('profileTab');
+const navTabs = {
+  profile: document.getElementById('profileTab'),
+  friends: document.getElementById('friendsTab'),
+  ranking: document.getElementById('rankingTab'),
+  goals: document.getElementById('goalsTab')
+};
 
 const cards = {
   user: document.getElementById('userCard'),
@@ -15,7 +17,6 @@ const cards = {
   hydration: document.getElementById('hydrationStation'),
   sleep: document.getElementById('sleepHygiene')
 };
-
 
 window.addEventListener('click', (event) => displayUserInfo(currentUser, event));
 window.addEventListener('load', () => loadFunctions());
@@ -79,14 +80,13 @@ function removeCamelCase(key) {
       key[index] = ` ${char.toLowerCase()}`;
     }
   });
-  words = key.join('').split(' ');
+  const words = key.join('').split(' ');
   const newPhrase = [];
   words.forEach(word => {
     newPhrase.push(word[0].toUpperCase() + word.slice(1));
   });
   return newPhrase.join(' ');
 }
-
 
 const getRandomNum = (array) => {
   return Math.floor(Math.random() * array.length);
@@ -111,33 +111,39 @@ function displayWelcome() {
   <h2>${userRepo.allUsersAverageSteps()} is the average step goal amongst all users.</h2>
   `;
 }
-// Global chart options
 
 function renderHydrationChart(date) {
+  // Could eventually rename this function renderChartData & put separate helper functions within
+  // Global chart options
   Chart.defaults.global.defaultFontColor = 'white';
   Chart.defaults.global.defaultFontStyle = 'italic';
   Chart.defaults.global.defaultFontSize = 18;
   Chart.defaults.global.animationDuration = .5;
-  Chart.defaults.global.animationEasing = 'easeInBounce'
-  cards.hydration.innerHTML += `<canvas id="hydrationChart"></canvas>`
-  const hydrationElement = document.getElementById('hydrationChart').getContext('2d')
+  Chart.defaults.global.animationEasing = 'easeInBounce';
+  // Sets up chart html element
+  cards.hydration.innerHTML += `<canvas id="hydrationChart"></canvas>`;
+  // Stores chart element & context to be passed into Chart instance
+  const hydrationElement = document.getElementById('hydrationChart').getContext('2d');
+  // Creates instance of Hydration class using currentUser & data
   const userHydrationData = new Hydration(currentUser.id, hydrationData);
   let dailyOunces = userHydrationData.calculateDailyOunces(date);
   let weeklyOunces = userHydrationData.calculateWeeklyOunces(date);
+  // Creates instance of Chart using html element
   let hydrationChart = new Chart(hydrationElement, {
+    // Object containing various chart configuration settings
     type: 'doughnut',
     data: {
       labels: ['Today', 'This Week'],
       datasets: [{
         label: 'Ounces of Water Consumed',
+        // Use data from Hydration instance to apply to chart, must be integer values
         data: [`${dailyOunces}`, `${weeklyOunces}`],
         backgroundColor: ['#9ab3f5', '#a3d8f4'],
         borderWidth: 0,
         // borderColor: 'black',
-        // hoverBorderWidth: 3,
         hoverBorderColor: '#b9fffc',
         hoverBorderWidth: 1
-      }] 
+      }]
     },
     options: {
       title: {
@@ -150,6 +156,6 @@ function renderHydrationChart(date) {
       },
       layout: {},
       tooltips: {},
-    }, 
-  })
+    },
+  });
 }
