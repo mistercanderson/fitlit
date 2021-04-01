@@ -11,7 +11,7 @@ describe('Sleep', () => {
   
   beforeEach(() => {
     user1 = new User(userData[0]);
-    sleep = new Sleep(user1.id, sleepData)
+    sleep = new Sleep(user1.id, sleepData);
   });
 
   it('should be a function', () => {
@@ -32,20 +32,20 @@ describe('Sleep', () => {
 
     expect(sleep.userData).to.be.an('Array');
     expect(extractedData).to.deep.equal(sleep.userData);
-  })
+  });
 
   it('should find the number of hours a user slept on a certain day', () => {
     const hoursSlept = sleep.findDailyHours("2019/06/15");
     const wrongHoursSlept = sleep.findDailyHours("1976/03/31");
 
     expect(hoursSlept).to.equal(5);
-    expect(wrongHoursSlept).to.equal('Sorry, you don\'t have any sleep information from that day')
+    expect(wrongHoursSlept).to.equal('Sorry, you don\'t have any sleep information from that day');
   });
 
   it('should calculate the average hours a user has slept over all time', () => {
     const totalHoursAverage = sleep.calculateAverageHoursTotal();
 
-    expect(totalHoursAverage).to.equal(6.7)
+    expect(totalHoursAverage).to.equal(6.7);
   });
 
   it('should calculate the average hours a user slept over the course of a week', () => {
@@ -63,13 +63,13 @@ describe('Sleep', () => {
     const wrongSleepQuality = sleep.findDailyQuality("1976/03/31");
 
     expect(sleepQuality).to.equal(2);
-    expect(wrongSleepQuality).to.equal('Sorry, you don\'t have any sleep information from that day')
+    expect(wrongSleepQuality).to.equal('Sorry, you don\'t have any sleep information from that day');
   });
 
   it('should calculate the average sleep quality a user has had over all time', () => {
     const totalQualityAverage = sleep.calculateAverageQualityTotal(sleep.userId);
 
-    expect(totalQualityAverage).to.equal(2.7)
+    expect(totalQualityAverage).to.equal(2.7);
   });
 
   it('should calculate the average sleep quality a user had over the course of a week', () => {
@@ -85,7 +85,7 @@ describe('Sleep', () => {
   it('should be able to calculate the average sleep quality for all users', () => {
     const globalAverage = sleep.calculateGlobalQualityAverage();
 
-    expect(globalAverage).to.equal(2.5)
+    expect(globalAverage).to.equal(2.5);
   });
 
   it('should be able to find the id of all users with an average sleep quality over 3 in any given week', () => {
@@ -102,6 +102,6 @@ describe('Sleep', () => {
 
     const sleepyGuy2 = sleep.findDeepestSleepers("2019/06/16");
 
-    expect(sleepyGuy2).to.deep.equal([2, 3])
+    expect(sleepyGuy2).to.deep.equal([2, 3]);
   });
-})
+});
