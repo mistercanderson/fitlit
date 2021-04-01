@@ -4,10 +4,12 @@ class Hydration {
     this.userData = hydrationData.filter(element => element.userID === userID);
   }
 
-  // calculateToalOunces() {
-  //   const poop = this.userData(element => ({id: element.id}))
-  //   console.log(poop)
-  // }
+  calculateToalOunces() {
+    const total = this.userData.reduce(function(sum,current) {
+      return sum + current.numOunces
+  }, 0);
+  return total;
+  }
 
   calculateDailyOunces(date) {
     let thisDay;
@@ -16,18 +18,21 @@ class Hydration {
     return thisDay[0].numOunces;
   }
   
-  calculateWeeklyOunces() {
-    const lastWeekOunces = this.userData.splice(-7, 7);
-    const res = lastWeekOunces.map(({date, numOunces}) => ({date, numOunces}));
-    return res;
+  findDay(date) {
+    const day = this.userData.find(dataPoint => dataPoint.date === date);
+    return day;
   }
 
-
+  calculateWeeklyOunces(endDate) {
+    const day = this.findDay(endDate);
+    const userData = this.userData.reverse()
+    const index = userData.indexOf(day);
+    const week = userData.splice(index, 7);
+    const weeklyOunces = week.map(({date, numOunces}) => ({date, numOunces}));
+    return weeklyOunces;
+  }
 }
-
 
 if (typeof module !== 'undefined') {
   module.exports = Hydration;
 }
-
-//remove user ID and format date
