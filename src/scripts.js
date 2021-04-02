@@ -20,30 +20,31 @@ const cards = {
 
 window.addEventListener('click', (event) => displayUserInfo(currentUser, event));
 window.addEventListener('load', () => loadFunctions());
+window.addEventListener('mouseover', (event) => backgroundColorChange(event))
 
 function displayUserInfo(user, event) {
   const userKeys = Object.keys(user);
   userKeys.forEach(key => {
     let currentElement = document.getElementById(key);
     switch (key) {
-    case 'address':
-      currentElement.innerText = '';
-      const address = user[key].split('-')[0];
-      currentElement.innerText += `${removeCamelCase(key)}: ${address}`;
-      break;
-    case 'friends':
-      currentElement.innerText = '';
-      const friendNumbers = user[key];
-      const userList = userRepo.userList;
-      const friends = friendNumbers.map(friendNumber =>
-        userList[friendNumber - 1].name);
-      currentElement.innerText += `${removeCamelCase(key)}: ${friends.join(', ')}`;
-      break;
-    case 'id':
-      break;
-    default:
-      currentElement.innerText = '';
-      currentElement.innerText += `${removeCamelCase(key)}: ${user[key]}`;
+      case 'address':
+        currentElement.innerText = '';
+        const address = user[key].split('-')[0];
+        currentElement.innerText += `${removeCamelCase(key)}: ${address}`;
+        break;
+      case 'friends':
+        currentElement.innerText = '';
+        const friendNumbers = user[key];
+        const userList = userRepo.userList;
+        const friends = friendNumbers.map(friendNumber =>
+          userList[friendNumber - 1].name);
+        currentElement.innerText += `${removeCamelCase(key)}: ${friends.join(', ')}`;
+        break;
+      case 'id':
+        break;
+      default:
+        currentElement.innerText = '';
+        currentElement.innerText += `${removeCamelCase(key)}: ${user[key]}`;
     }
   });
   userProfileToggle(event);
@@ -52,24 +53,24 @@ function displayUserInfo(user, event) {
 function userProfileToggle(event) {
   const cardKeys = Object.keys(cards);
   switch (event.target.id) {
-  case 'profileTab':
-    cardKeys.forEach(cardKey => {
-      if (cardKey === 'user') {
-        cards[cardKey].classList.remove('hidden');
-      } else {
-        cards[cardKey].classList.add('hidden');
-      }
-    });
-    break;
-  case 'closeButton':
-    cardKeys.forEach(cardKey => {
-      if (cardKey === 'user') {
-        cards[cardKey].classList.add('hidden');
-      } else {
-        cards[cardKey].classList.remove('hidden');
-      }
-    });
-    break;
+    case 'profileTab':
+      cardKeys.forEach(cardKey => {
+        if (cardKey === 'user') {
+          cards[cardKey].classList.remove('hidden');
+        } else {
+          cards[cardKey].classList.add('hidden');
+        }
+      });
+      break;
+    case 'closeButton':
+      cardKeys.forEach(cardKey => {
+        if (cardKey === 'user') {
+          cards[cardKey].classList.add('hidden');
+        } else {
+          cards[cardKey].classList.remove('hidden');
+        }
+      });
+      break;
   }
 }
 
@@ -107,9 +108,8 @@ function displayWelcome() {
   currentUser = generateRandomUser();
 
   userGreeting.innerHTML += `
-  <h1>Let's Get Physical, ${currentUser.sayName()}!</h1>
-  <h2>${userRepo.allUsersAverageSteps()} is the average step goal amongst all users.</h2>
-  `;
+  <h1>Let's Get FitLit, ${currentUser.sayName()}!</h1>
+  <h3>${userRepo.allUsersAverageSteps()} is the average step goal for all FitLit users</h3>`;
 }
 
 function renderHydrationChart(date) {
@@ -120,8 +120,8 @@ function renderHydrationChart(date) {
   Chart.defaults.global.defaultFontSize = 18;
   Chart.defaults.global.animationDuration = .5;
   Chart.defaults.global.animationEasing = 'easeInBounce';
-  // Sets up chart html element
-  cards.hydration.innerHTML += `<canvas id="hydrationChart"></canvas>`;
+  // Sets up chart html element CHANGED THIS TO HARDCODE INSIDE HTML
+  // cards.hydration.innerHTML += `<canvas class="hydration-station chart" id="hydrationChart"></canvas>`;
   // Stores chart element & context to be passed into Chart instance
   const hydrationElement = document.getElementById('hydrationChart').getContext('2d');
   // Creates instance of Hydration class using currentUser & data
@@ -133,14 +133,13 @@ function renderHydrationChart(date) {
     // Object containing various chart configuration settings
     type: 'doughnut',
     data: {
-      labels: ['Today', 'This Week'],
+      labels: [`Today`, `This Week`],
       datasets: [{
         label: 'Ounces of Water Consumed',
         // Use data from Hydration instance to apply to chart, must be integer values
         data: [`${dailyOunces}`, `${weeklyOunces}`],
         backgroundColor: ['#9ab3f5', '#a3d8f4'],
         borderWidth: 0,
-        // borderColor: 'black',
         hoverBorderColor: '#b9fffc',
         hoverBorderWidth: 1
       }]
@@ -158,4 +157,46 @@ function renderHydrationChart(date) {
       tooltips: {},
     },
   });
+}
+
+function backgroundColorChange(event) {
+  const body = document.querySelector('body')
+  const stripe1 = document.querySelector('.stripe-one');
+  const stripe2 = document.querySelector('.stripe-two');
+  const stripe3 = document.querySelector('.stripe-three');
+  const navTabs = document.querySelector('ul')
+  const userGreeting = document.querySelector('.user-greeting')
+  switch (true) {
+    case event.target.classList.contains('activity-tracker'):
+      body.style.backgroundColor = '#d92027';
+      stripe1.style.backgroundColor = '#35d0ba'
+      stripe2.style.backgroundColor = '#ffcd3c'
+      stripe3.style.backgroundColor = '#ff9234'
+      navTabs.style.color = 'white'
+      userGreeting.style.color = 'white'
+      break;
+    case event.target.classList.contains('hydration-station'):
+      body.style.backgroundColor = '#7579e7';
+      stripe1.style.backgroundColor = '#a3d8f4'
+      stripe2.style.backgroundColor = '#b9fffc'
+      stripe3.style.backgroundColor = '#9ab3f5'
+      navTabs.style.color = 'white'
+      userGreeting.style.color = 'white'
+      break;
+    case event.target.classList.contains('sleep-hygiene'):
+      body.style.backgroundColor = '#151515';
+      stripe1.style.backgroundColor = '#301b3f'
+      stripe2.style.backgroundColor = '#3c415c'
+      stripe3.style.backgroundColor = '#908484'
+      navTabs.style.color = 'white'
+      userGreeting.style.color = 'white'
+      break;
+    default:
+      body.style.backgroundColor = '#fbe6c2';
+      stripe1.style.backgroundColor = '#f0c929'
+      stripe2.style.backgroundColor = '#f48b29'
+      stripe3.style.backgroundColor = '#ac0d0d'
+      navTabs.style.color = 'black'
+      userGreeting.style.color = 'black'
+  }
 }

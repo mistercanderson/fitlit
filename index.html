@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="./styles.css">
+  <link rel="stylesheet" type="text/css" href="./src/styles.css">
 </head>
 
 <body>
@@ -31,14 +31,14 @@
       <p id="friends"></p>
     </section>
     <section class="activity-tracker data-block" id="activityTracker">
-      <h3>Activity Tracker</h3>
+      <h3 class="activity-tracker">Activity Tracker</h3>
     </section>
     <section class="hydration-station data-block" id="hydrationStation">
-      <h3>Hydration Station</h3>
-      <!-- <canvas id="hydrationChart"></canvas> -->
+      <h3 class="hydration-station">Hydration Station</h3>
+      <canvas class="hydration-station chart" id="hydrationChart"></canvas>
     </section>
     <section class="sleep-hygiene data-block" id="sleepHygiene">
-      <h3>Sleep Hygiene</h3>
+      <h3 class="sleep-hygiene">Sleep Hygiene</h3>
     </section>
   </main>
   <div class="color-stripes">
@@ -47,18 +47,15 @@
     <div class="stripe-three"></div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-  <script type="text/javascript" src="../data/users.js"></script>
-  <script type="text/javascript" src="../data/hydration.js"></script>
-  <script type="text/javascript" src="../data/sleep.js"></script>
-  <script type="text/javascript" src="../data/activity.js"></script>
-  <script type="text/javascript" src="./UserRepository.js"></script>
-  <script type="text/javascript" src="./Hydration.js"></script>
-  <script type="text/javascript" src="./Sleep.js"></script>
-  <script type="text/javascript" src="./User.js"></script>
-  <script type="text/javascript" src="./Hydration.js"></script>
-  <script type="text/javascript" src="./Sleep.js"></script>
-  <script type="text/javascript" src="./Activity.js"></script>
-  <script type="text/javascript" src="./scripts.js"></script>
+  <script type="text/javascript" src="./data/users.js"></script>
+  <script type="text/javascript" src="./data/hydration.js"></script>
+  <script type="text/javascript" src="./data/sleep.js"></script>
+  <script type="text/javascript" src="./data/activity.js"></script>
+  <script type="text/javascript" src="./src/UserRepository.js"></script>
+  <script type="text/javascript" src="./src/Hydration.js"></script>
+  <script type="text/javascript" src="./src/Sleep.js"></script>
+  <script type="text/javascript" src="./src/User.js"></script>
+  <script type="text/javascript" src="./src/scripts.js"></script>
 </body>
 
 </html>

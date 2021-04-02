@@ -11,6 +11,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  transition: background-color .2s linear
 }
 
 .color-stripes {
@@ -54,37 +55,39 @@ nav {
 ul {
   padding: 0;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 }
 
 li {
-  display: block;
-  width: 10em;
+  display: inline;
   font-weight: 100;
   text-align: center;
+  cursor: pointer;
 }
 
 main {
   margin: 2em 0;
-  height: 80%;
+  height: 60%;
   width: 80%;
   display: grid;
   justify-items: center;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  /* grid-template-rows: repeat(2, 300px); */
   grid-area: auto;
   grid-gap: .8em;
-  grid-auto-flow: dense;
 }
 
 .user-greeting {
   font-style: italic;
   letter-spacing: -.03em;
-  text-shadow: 1px 2px 7px #c7b493;
   text-align: center;
   font-weight: 400;
   margin-bottom: 0;
+}
+
+.user-greeting>h3 {
+  font-style: normal;
+  font-weight: 100;
 }
 
 .data-block {
@@ -95,42 +98,38 @@ main {
   border-radius: 10px;
   height: 100%;
   width: 100%;
-  max-height: 30em;
+  max-height: 20em;
   max-width: 30em;
   background-color: rgba(194, 202, 193, 0.774);
   color: white;
-  transition: background-color .2s linear;
+  border: .1em solid transparent;
+}
+
+.data-block:hover {
+  border: .1em solid white
 }
 
 .data-block>h3 {
-  justify-self: baseline;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 3px;
-  margin: .5em 0 0 0;
-  height: 1rem;
 }
 
 .user-card {
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
-  padding-left: 1em;
-  /* color: rgb(53, 64, 75); */
+  padding: 2em 1em;
+  color: rgba(0, 0, 0, 0.600)
 }
 
 .user-card>div {
   align-self: flex-end;
-  padding: 2% 5% 0 0;
-  font-size: .8em;
+  cursor: pointer;
 }
 
-/* .activity-tracker {
-  background: url(../assets/workout_shoe.png) center;
-} */
-
 .activity-tracker:hover {
-  background-color: #d92027;
+  background-color: #d92026;
 }
 
 .hydration-station:hover {
@@ -142,5 +141,5 @@ main {
 }
 
 .hidden {
-  display: none;
+  display: none!important;
 }
