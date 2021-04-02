@@ -19,7 +19,7 @@ describe('Activity', () => {
     expect(activity).to.be.an.instanceOf(Activity);
   });
 
-  it.only('should calculate the number of steps for any specific day', () => {
+  it.only('should calculate the number of steps, in miles, for any specific day', () => {
     expect(activity.calculateDailyMiles('2019/06/15')).to.be.deep.equal('3.0');
   });
 

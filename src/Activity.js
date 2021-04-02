@@ -12,7 +12,7 @@ class Activity {
     return userData;
   }
 
-  extractStride(user) {
+  extractStride() {
     const userStride = this.userData.filter(user => user.id === this.userId);
     return userStride[0].strideLength;
     };
@@ -29,6 +29,7 @@ class Activity {
 
   calculateDailyMinutes(date) {
     let userData = this.extractData();
+
     let minutesActive = userData.filter(user => user.date === date);
     return minutesActive[0].minutesActive;
   }
@@ -40,17 +41,18 @@ class Activity {
 
   findWeeklyMinutes(endDate) {
     const day = this.findDay(endDate);
-    const userData = this.activityData.reverse()
+    const userData = this.activityData.reverse();
     const index = userData.indexOf(day);
     const week = userData.splice(index, 7);
     const weeklyMiles = week.map(({date, minutesActive}) => ({date, minutesActive}));
     return weeklyMiles;
   }
+
   confirmStepGoal(date) {
-    let userData = this.userData.filter(user => user.id === this.userId);
-    let userStepGoal = userData[0].dailyStepGoal
-    let stepsToday = this.findDay(date).numSteps; 
-  return stepsToday > userStepGoal ? true : false;
+    const userData = this.userData.filter(user => user.id === this.userId);
+    const userStepGoal = userData[0].dailyStepGoal;
+    const stepsToday = this.findDay(date).numSteps;
+    return stepsToday > userStepGoal ? true : false;
   }
 }
 
