@@ -12,6 +12,9 @@ body {
   justify-content: center;
   align-items: center;
 }
+* {
+  transition: background-color .2s linear
+}
 
 .color-stripes {
   position: fixed;

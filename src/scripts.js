@@ -20,30 +20,31 @@ const cards = {
 
 window.addEventListener('click', (event) => displayUserInfo(currentUser, event));
 window.addEventListener('load', () => loadFunctions());
+window.addEventListener('mouseover', (event) => backgroundColorChange(event))
 
 function displayUserInfo(user, event) {
   const userKeys = Object.keys(user);
   userKeys.forEach(key => {
     let currentElement = document.getElementById(key);
     switch (key) {
-    case 'address':
-      currentElement.innerText = '';
-      const address = user[key].split('-')[0];
-      currentElement.innerText += `${removeCamelCase(key)}: ${address}`;
-      break;
-    case 'friends':
-      currentElement.innerText = '';
-      const friendNumbers = user[key];
-      const userList = userRepo.userList;
-      const friends = friendNumbers.map(friendNumber =>
-        userList[friendNumber - 1].name);
-      currentElement.innerText += `${removeCamelCase(key)}: ${friends.join(', ')}`;
-      break;
-    case 'id':
-      break;
-    default:
-      currentElement.innerText = '';
-      currentElement.innerText += `${removeCamelCase(key)}: ${user[key]}`;
+      case 'address':
+        currentElement.innerText = '';
+        const address = user[key].split('-')[0];
+        currentElement.innerText += `${removeCamelCase(key)}: ${address}`;
+        break;
+      case 'friends':
+        currentElement.innerText = '';
+        const friendNumbers = user[key];
+        const userList = userRepo.userList;
+        const friends = friendNumbers.map(friendNumber =>
+          userList[friendNumber - 1].name);
+        currentElement.innerText += `${removeCamelCase(key)}: ${friends.join(', ')}`;
+        break;
+      case 'id':
+        break;
+      default:
+        currentElement.innerText = '';
+        currentElement.innerText += `${removeCamelCase(key)}: ${user[key]}`;
     }
   });
   userProfileToggle(event);
@@ -52,24 +53,24 @@ function displayUserInfo(user, event) {
 function userProfileToggle(event) {
   const cardKeys = Object.keys(cards);
   switch (event.target.id) {
-  case 'profileTab':
-    cardKeys.forEach(cardKey => {
-      if (cardKey === 'user') {
-        cards[cardKey].classList.remove('hidden');
-      } else {
-        cards[cardKey].classList.add('hidden');
-      }
-    });
-    break;
-  case 'closeButton':
-    cardKeys.forEach(cardKey => {
-      if (cardKey === 'user') {
-        cards[cardKey].classList.add('hidden');
-      } else {
-        cards[cardKey].classList.remove('hidden');
-      }
-    });
-    break;
+    case 'profileTab':
+      cardKeys.forEach(cardKey => {
+        if (cardKey === 'user') {
+          cards[cardKey].classList.remove('hidden');
+        } else {
+          cards[cardKey].classList.add('hidden');
+        }
+      });
+      break;
+    case 'closeButton':
+      cardKeys.forEach(cardKey => {
+        if (cardKey === 'user') {
+          cards[cardKey].classList.add('hidden');
+        } else {
+          cards[cardKey].classList.remove('hidden');
+        }
+      });
+      break;
   }
 }
 
@@ -159,3 +160,40 @@ function renderHydrationChart(date) {
     },
   });
 }
+
+function backgroundColorChange(event) {
+    const body = document.querySelector('body')
+    const stripe1 = document.querySelector('.stripe-one');
+    const stripe2 = document.querySelector('.stripe-two');
+    const stripe3 = document.querySelector('.stripe-three');
+  switch (event.target.id) {
+    case 'activityTracker':
+      body.style.backgroundColor = '#d92027';
+      stripe1.style.backgroundColor = '#ff9234'
+      stripe2.style.backgroundColor = '#ffcd3c'
+      stripe3.style.backgroundColor = '#35d0ba'
+      break;
+    case 'hydrationStation':
+      body.style.backgroundColor = '#7579e7';
+      stripe1.style.backgroundColor = '#9ab3f5'
+      stripe2.style.backgroundColor = '#a3d8f4'
+      stripe3.style.backgroundColor = '#b9fffc'
+      break;
+    case 'sleepHygiene':
+      body.style.backgroundColor = '#151515';
+      stripe1.style.backgroundColor = '#301b3f'
+      stripe2.style.backgroundColor = '#3c415c'
+      stripe3.style.backgroundColor = '#b4a5a5'
+      break;
+    default:
+      body.style.backgroundColor = '#fbe6c2';
+      stripe1.style.backgroundColor = '#f0c929'
+      stripe2.style.backgroundColor = '#f48b29'
+      stripe3.style.backgroundColor = '#ac0d0d'
+  }
+}
+// color stripes
+// main: #fbe6c2, #f0c929, #f48b29, #ac0d0d
+// activity: #d92027 #ff9234 #ffcd3c #35d0ba
+// water: #7579e7 #9ab3f5 #a3d8f4 #b9fffc
+// sleep: #151515 #301b3f #3c415c #b4a5a5
