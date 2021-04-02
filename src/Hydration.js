@@ -5,7 +5,7 @@ class Hydration {
   }
 
   calculateToalOunces() {
-    const total = this.userData.reduce(function (sum, current) {
+    const total = this.userData.reduce((sum, current) => {
       return sum + current.numOunces;
     }, 0);
     return total;
