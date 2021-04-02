@@ -7,7 +7,7 @@ class Activity {
     this.userData = userData;
   }
 
-  extractData(user) {
+  extractData() {
     const userData = this.activityData.filter(user => user.userId === this.userId);
     return userData;
   }
@@ -16,16 +16,15 @@ class Activity {
     const userStride = this.userData.filter(user => user.id === this.userId);
     return userStride[0].strideLength;
     };
-    
+  
+  calculateDailyMiles(date) {
+    const userData = this.extractData();
+    const userStride = this.extractStride();
 
-  calculateDailySteps(date) {
-    let userData = this.extractData();
-    let userStride = this.extractStride();
-    let currentDateData = userData.filter(user => user.date === date);
-    let numSteps = currentDateData[0].numSteps;
-    let calculateMiles = numSteps / (5280/userStride);
-    let roundMiles = calculateMiles.toFixed(1);         
-    return roundMiles;
+    const currentDateData = userData.filter(user => user.date === date);
+    const numStepsPerMile = currentDateData[0].numSteps;
+    const calculateMiles = numStepsPerMile / (5280/userStride);
+    return calculateMiles.toFixed(1);
   }
 
   calculateDailyMinutes(date) {
@@ -39,16 +38,20 @@ class Activity {
     return day;
   }
 
-  findWeeklyMinutess(endDate) {
+  findWeeklyMinutes(endDate) {
     const day = this.findDay(endDate);
-    console.log(endDate)
     const userData = this.activityData.reverse()
     const index = userData.indexOf(day);
     const week = userData.splice(index, 7);
     const weeklyMiles = week.map(({date, minutesActive}) => ({date, minutesActive}));
     return weeklyMiles;
   }
-
+  confirmStepGoal(date) {
+    let userData = this.userData.filter(user => user.id === this.userId);
+    let userStepGoal = userData[0].dailyStepGoal
+    let stepsToday = this.findDay(date).numSteps; 
+  return stepsToday > userStepGoal ? true : false;
+  }
 }
 
 if (typeof module !== 'undefined') {

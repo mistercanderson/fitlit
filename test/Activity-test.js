@@ -18,17 +18,17 @@ describe('Activity', () => {
   it('should be an instance of Activity', () => {
     expect(activity).to.be.an.instanceOf(Activity);
   });
-  it.skip('should calculate the number of steps for any specific day', () => {
-    // 5280/4.5 = 1,173 num steps per mile >> 3577/1173
-    expect(activity.calculateDailySteps('2019/06/15')).to.be.deep.equal(3.0);
+
+  it.only('should calculate the number of steps for any specific day', () => {
+    expect(activity.calculateDailyMiles('2019/06/15')).to.be.deep.equal('3.0');
   });
 
   it('should return how many minutes a user spent being active in a day', () => {
     expect(activity.calculateDailyMinutes('2019/06/15')).to.be.equal(140);
   });
 
-  it.only('should extract how many minutes a user spent being active in any week', () => {
-    expect(activity.findWeeklyMinutess('2019/06/21')).to.be.deep.equal([
+  it('should extract how many minutes a user spent being active in any week', () => {
+    expect(activity.findWeeklyMinutes('2019/06/21')).to.be.deep.equal([
       { date: '2019/06/21', minutesActive: 90 },
       { date: '2019/06/20', minutesActive: 70 },
       { date: '2019/06/19', minutesActive: 237 },
@@ -40,8 +40,8 @@ describe('Activity', () => {
   });
 
   it('should confirm if their step goal was reached for any day', () => {
-    expect(activity.confirmStepGoal(1, '2019/06/19')).to.be.equal(false);
-    expect(activity.confirmDailyStepGoal(1, '2019/06/20')).to.be.equal(true);
+    expect(activity.confirmStepGoal('2019/06/19')).to.be.equal(false);
+    expect(activity.confirmStepGoal('2019/06/20')).to.be.equal(true);
   });
 
   it.skip('should return all days exceeding their goal', () => {
