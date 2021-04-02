@@ -1,7 +1,7 @@
 const chai = require('chai');
 const expect = chai.expect;
 const UserRepository = require('../src/UserRepository');
-const fakeData = require('../data/fakeData');
+const fakeData = require('../data/fakeUserData');
 
 describe('UserRepository', () => {
   let userRepo;

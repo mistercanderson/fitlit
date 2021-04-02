@@ -21,6 +21,41 @@ const fakeActivityData = [
     "flightsOfStairs": 33
   },
   {
+    "userID": 1,
+    "date": "2019/06/18",
+    "numSteps": 8097,
+    "minutesActive": 68,
+    "flightsOfStairs": 34
+  },
+  {
+    "userID": 1,
+    "date": "2019/06/19",
+    "numSteps": 2475,
+    "minutesActive": 237,
+    "flightsOfStairs": 13
+  },
+  {
+    "userID": 1,
+    "date": "2019/06/20",
+    "numSteps": 13948,
+    "minutesActive": 70,
+    "flightsOfStairs": 35
+  },
+  {
+    "userID": 1,
+    "date": "2019/06/21",
+    "numSteps": 14419,
+    "minutesActive": 90,
+    "flightsOfStairs": 33
+  },
+  {
+    "userID": 1,
+    "date": "2019/06/21",
+    "numSteps": 6676,
+    "minutesActive": 146,
+    "flightsOfStairs": 11
+  },
+  {
     "userID": 2,
     "date": "2019/06/15",
     "numSteps": 3486,
