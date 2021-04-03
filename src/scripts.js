@@ -49,9 +49,10 @@ function displayUserInfo(user, event) {
     }
   });
   userProfileToggle(event);
+  userGoalToggle(event);
 }
 
-function userProfileToggle(event) {
+function userGoalToggle(event) {
   const cardKeys = Object.keys(cards);
   switch (event.target.id) {
     case 'profileTab':
@@ -103,6 +104,7 @@ const generateRandomUser = () => {
 const loadFunctions = () => {
   displayWelcome();
   renderHydrationChart(currentDate);
+  renderActivityChart(currentDate);
 };
 
 function displayWelcome() {
@@ -112,6 +114,57 @@ function displayWelcome() {
   <h1>Let's Get FitLit, ${currentUser.sayName()}!</h1>
   <h3>${userRepo.allUsersAverageSteps()} is the average step goal for all FitLit users</h3>`;
 }
+
+
+
+///////////////// PLAY ///////////////////////
+function renderActivityChart(date) {
+  Chart.defaults.global.defaultFontColor = 'white';
+  Chart.defaults.global.defaultFontStyle = 'italic';
+  Chart.defaults.global.defaultFontSize = 18;
+  Chart.defaults.global.animationDuration = .5;
+  Chart.defaults.global.animationEasing = 'easeInBounce';
+
+  const activityElement = document.getElementById('activityChart').getContext('2d');
+  const userActivityData = new Activity (currentUser.id, activityData, userData);
+  let dailyMiles = userActivityData.calculateDailyMiles((date));
+  let dailyMinutesActive = userActivityData.calculateDailyMinutes(date);
+  
+
+  let myBarChart = new Chart(activityElement, {
+    type: 'bar',
+    data: {
+      labels:['Miles', 'Active Minutes'],
+      datasets: [{
+        barPercentage: 0.5,
+        barThickness: 6,
+        maxBarThickness: 8,
+        minBarLength: 2,
+        data: [`${dailyMiles}`, `${dailyMinutesActive}`],
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Activities today',
+        fontStyle: '',
+      },
+      legend: {
+        position: 'false',
+      },
+      layout: {},
+      tooltips: {},
+    },
+  });
+}
+
+
+
+
+
+
+
+
 
 function renderHydrationChart(date) {
   // Could eventually rename this function renderChartData & put separate helper functions within

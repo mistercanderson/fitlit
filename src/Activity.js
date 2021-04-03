@@ -8,7 +8,7 @@ class Activity {
   }
 
   extractData() {
-    const userData = this.activityData.filter(user => user.userId === this.userId);
+    const userData = this.activityData.filter(user => user.userID === this.userId);
     return userData;
   }
 
