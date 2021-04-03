@@ -22,7 +22,6 @@ window.addEventListener('click', (event) => displayUserInfo(currentUser, event))
 window.addEventListener('load', () => loadFunctions());
 window.addEventListener('mouseover', (event) => backgroundColorChange(event));
 
-
 function displayUserInfo(user, event) {
   const userKeys = Object.keys(user);
   userKeys.forEach(key => {
@@ -97,7 +96,6 @@ const getRandomNum = (array) => {
 const generateRandomUser = () => {
   let randomUser = userData[getRandomNum(userData)];
   let user = new User(randomUser);
-  // console.log(user.id)
   return user;
 };
 
@@ -134,13 +132,13 @@ function renderActivityChart(date) {
       labels: ['Miles', 'Active Minutes', 'Steps'],
       datasets: [{
         data: [`${dailyMiles}`, `${dailyMinutesActive}`, `${dailySteps}` ],
-        backgroundColor: ['#ac0d0d', '#f48b29', '#f0c929'],
+        backgroundColor: ['#35d0ba', '#ffcd3c', '#ff9234'],
       }]
     },
     options: {
       title: {
         display: true,
-        text: 'Activities today',
+        text: 'Activities Today',
         fontStyle: '',
       },
       legend: {
