@@ -20,7 +20,8 @@ const cards = {
 
 window.addEventListener('click', (event) => displayUserInfo(currentUser, event));
 window.addEventListener('load', () => loadFunctions());
-window.addEventListener('mouseover', (event) => backgroundColorChange(event))
+window.addEventListener('mouseover', (event) => backgroundColorChange(event));
+
 
 function displayUserInfo(user, event) {
   const userKeys = Object.keys(user);

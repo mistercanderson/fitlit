@@ -1,5 +1,3 @@
-const User = require("./User");
-
 class Activity {
   constructor(userId, activityData, userInformation) {
     this.userId = userId;
@@ -19,6 +17,7 @@ class Activity {
     return userInformation;
   }
 
+  // There are 5,280 feet per mile - used user stride length to find number steps per mile (date's num steps/(num steps per mile))
   calculateDailyMiles(date) {
     const currentUser = this.findCurrentUser();
     const userStride = currentUser[0].strideLength;
@@ -47,7 +46,7 @@ class Activity {
     const weeklyMiles = week.map(({date, minutesActive}) => ({date, minutesActive}));
     return weeklyMiles;
   }
-
+  
   findStepGoal() {
     const userData = this.findCurrentUser();
     const userStepGoal = userData[0].dailyStepGoal;
@@ -72,16 +71,13 @@ class Activity {
     const numOfStairs = Math.max.apply(Math, this.userData.map(o => o.flightsOfStairs));
     return numOfStairs;
   }
-
-  allUsersDataByDate() {
-    const allUserData = this.activityData.filter(user => user.date === date);
-  }
-
+  
+  // All users' average 
   extractAllUsersDataByDate(date) {
     const allUserData = this.activityData.filter(user => user.date === date);
     return allUserData;
   }
-  
+
   findAllUsersStairsAverage(date) {
     const allUserData = this.extractAllUsersDataByDate(date);
     const total = allUserData.reduce( (sum, current) => {
