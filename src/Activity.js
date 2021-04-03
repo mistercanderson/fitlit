@@ -48,11 +48,24 @@ class Activity {
     return weeklyMiles;
   }
 
-  confirmStepGoal(date) {
+  findStepGoal() {
     const userData = this.userData.filter(user => user.id === this.userId);
     const userStepGoal = userData[0].dailyStepGoal;
+    return userStepGoal;
+  }
+
+  confirmCurrentStepGoal(date) {
+    const userStepGoal = this.findStepGoal();
     const stepsToday = this.findDay(date).numSteps;
     return stepsToday > userStepGoal ? true : false;
+  }
+  
+  confirmAllStepGoal() {
+    const userStepGoal = this.findStepGoal();
+    const userData = this.extractData();
+    const achievedDays = userData.filter(steps => steps.numSteps > userStepGoal);
+    const days = achievedDays.map(({date, numSteps}) =>({date, numSteps}))
+    return days;
   }
 }
 

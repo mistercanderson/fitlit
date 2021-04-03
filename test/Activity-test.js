@@ -19,7 +19,7 @@ describe('Activity', () => {
     expect(activity).to.be.an.instanceOf(Activity);
   });
 
-  it.only('should calculate the number of steps, in miles, for any specific day', () => {
+  it('should calculate the number of steps, in miles, for any specific day', () => {
     expect(activity.calculateDailyMiles('2019/06/15')).to.be.deep.equal('3.0');
   });
 
@@ -40,16 +40,19 @@ describe('Activity', () => {
   });
 
   it('should confirm if their step goal was reached for any day', () => {
-    expect(activity.confirmStepGoal('2019/06/19')).to.be.equal(false);
-    expect(activity.confirmStepGoal('2019/06/20')).to.be.equal(true);
+    expect(activity.confirmCurrentStepGoal('2019/06/19')).to.be.equal(false);
+    expect(activity.confirmCurrentStepGoal('2019/06/20')).to.be.equal(true);
   });
 
-  it.skip('should return all days exceeding their goal', () => {
-    expect(activity.confirmAllStepGoal(1, activityData)).to.be.equal("2019/06/20", '2019/06/21');
+  it.only('should return all days exceeding their goal', () => {
+    expect(activity.confirmAllStepGoal(activityData)).to.be.deep.equal([
+      { date: '2019/06/20', numSteps: 13948 },
+      { date: '2019/06/21', numSteps: 14419 },
+    ]);
   });
 
   it.skip('should extract their all time record', () => {
-    expect(activity.findStepRecord(1, activityData)).to.be.equal("2019/06/21");
+    expect(activity.findStepRecord(activityData)).to.be.equal("2019/06/21");
   });
 
   it.skip('should calculate all user\'s average stairs climbed for any given day', () => {
