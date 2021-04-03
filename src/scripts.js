@@ -49,10 +49,9 @@ function displayUserInfo(user, event) {
     }
   });
   userProfileToggle(event);
-  userGoalToggle(event);
 }
 
-function userGoalToggle(event) {
+function userProfileToggle(event) {
   const cardKeys = Object.keys(cards);
   switch (event.target.id) {
     case 'profileTab':
@@ -129,19 +128,32 @@ function renderActivityChart(date) {
   const userActivityData = new Activity (currentUser.id, activityData, userData);
   let dailyMiles = userActivityData.calculateDailyMiles((date));
   let dailyMinutesActive = userActivityData.calculateDailyMinutes(date);
+  let dailySteps = userActivityData.userInformation.numSteps;
   
 
   let myBarChart = new Chart(activityElement, {
     type: 'bar',
     data: {
-      labels:['Miles', 'Active Minutes'],
+      labels:['Miles', 'Active Minutes', 'Steps'],
       datasets: [{
         barPercentage: 0.5,
         barThickness: 6,
         maxBarThickness: 8,
         minBarLength: 2,
-        data: [`${dailyMiles}`, `${dailyMinutesActive}`],
+        data: [`${dailyMiles}`, `${dailyMinutesActive}`, `${dailySteps}` ],
       }]
+
+      // labels: [`Miles`, `Active`],
+      // datasets: [{
+      //   label: 'Activities today',
+      //   // Use data from Hydration instance to apply to chart, must be integer values
+      //   data: [`${dailyMiles}`, `${dailyMinutesActive}`],
+      //   backgroundColor: ['#9ab3f5', '#a3d8f4'],
+      //   borderWidth: 0,
+      //   hoverBorderColor: '#b9fffc',
+      //   hoverBorderWidth: 1
+      // }]
+
     },
     options: {
       title: {
@@ -150,7 +162,7 @@ function renderActivityChart(date) {
         fontStyle: '',
       },
       legend: {
-        position: 'false',
+        position: 'start',
       },
       layout: {},
       tooltips: {},
