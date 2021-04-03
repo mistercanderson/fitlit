@@ -1,10 +1,11 @@
 const User = require("./User");
 
 class Activity {
-  constructor(userId, activityData, userData) {
+  constructor(userId, activityData, userInformation) {
     this.userId = userId;
     this.activityData = activityData;
-    this.userData = userData;
+    this.userInformation = userInformation;
+    this.userData = this.extractData();
   }
 
   extractData() {
@@ -12,25 +13,22 @@ class Activity {
     return userData;
   }
 
-  extractStride() {
-    const userStride = this.userData.filter(user => user.id === this.userId);
-    return userStride[0].strideLength;
+  findCurrentUser() {
+    const userInformation = this.userInformation.filter(user => user.id === this.userId);
+    return userInformation;
   }
-  
-  calculateDailyMiles(date) {
-    const userData = this.extractData();
-    const userStride = this.extractStride();
 
-    const currentDateData = userData.filter(user => user.date === date);
+  calculateDailyMiles(date) {
+    const currentUser = this.findCurrentUser();
+    const userStride = currentUser[0].strideLength;
+    const currentDateData = this.userData.filter(user => user.date === date);
     const numStepsPerMile = currentDateData[0].numSteps;
     const calculateMiles = numStepsPerMile / (5280/userStride);
     return calculateMiles.toFixed(1);
   }
 
   calculateDailyMinutes(date) {
-    let userData = this.extractData();
-
-    let minutesActive = userData.filter(user => user.date === date);
+    let minutesActive = this.userData.filter(user => user.date === date);
     return minutesActive[0].minutesActive;
   }
 
@@ -50,7 +48,7 @@ class Activity {
   }
 
   findStepGoal() {
-    const userData = this.userData.filter(user => user.id === this.userId);
+    const userData = this.findCurrentUser();
     const userStepGoal = userData[0].dailyStepGoal;
     return userStepGoal;
   }
@@ -64,20 +62,18 @@ class Activity {
 
   extractAchievedStepDays() {
     const userStepGoal = this.findStepGoal();
-    const userData = this.extractData();
-    const achievedDays = userData.filter(steps => steps.numSteps > userStepGoal);
+    const achievedDays = this.userData.filter(steps => steps.numSteps > userStepGoal);
     const days = achievedDays.map(({date, numSteps}) =>({date, numSteps}))
     return days;
   }
 
   findAllTimeStairs() {
-    const userData = this.extractData();
-    const numOfStairs = Math.max.apply(Math, userData.map(o => o.flightsOfStairs));
+    const numOfStairs = Math.max.apply(Math, this.userData.map(o => o.flightsOfStairs));
     return numOfStairs;
   }
 
   findAllUsersStairsAverage(date) {
-    const userCount = this.userData.length;
+    const userCount = this.userInformation.length;
     const allUserData = this.activityData.filter(user => user.date === date);
     const total = allUserData.reduce( (sum, current) => {
       return sum + current.flightsOfStairs;
@@ -87,7 +83,7 @@ class Activity {
   }
 
   findAllUsersStepsAverage(date) {
-    const userCount = this.userData.length;
+    const userCount = this.userInformation.length;
     const allUserData = this.activityData.filter(user => user.date === date);
     const total = allUserData.reduce( (sum, current) => {
       return sum + current.numSteps;
@@ -97,7 +93,7 @@ class Activity {
   }
   
   finAllUsersMinutesAverage(date) {
-    const userCount = this.userData.length;
+    const userCount = this.userInformation.length;
     const allUserData = this.activityData.filter(user => user.date === date);
     const total = allUserData.reduce( (sum, current) => {
       return sum + current.minutesActive;
