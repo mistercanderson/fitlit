@@ -2,7 +2,7 @@ const chai = require('chai');
 const expect = chai.expect;
 const Sleep = require('../src/Sleep.js');
 const sleepData = require('../data/fakeSleep.js');
-const userData = require('../data/fakeData.js');
+const userData = require('../data/fakeUserData.js');
 const User = require('../src/User.js');
 
 describe('Sleep', () => {

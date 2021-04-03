@@ -1,4 +1,4 @@
-const fakeData = [
+const fakeUserData = [
   {
     "id": 1,
     "name": "Shay Mitchel",
@@ -28,4 +28,4 @@ const fakeData = [
   }
 ];
 
-module.exports = fakeData;
+module.exports = fakeUserData;
