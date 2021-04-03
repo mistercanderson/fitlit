@@ -43,7 +43,8 @@ class Activity {
     const day = this.findDay(endDate);
     const userData = this.activityData.reverse();
     const index = userData.indexOf(day);
-    const week = userData.splice(index, 7);
+    const copyUserData = [...userData];
+    const week = copyUserData.splice(index, 7);
     const weeklyMiles = week.map(({date, minutesActive}) => ({date, minutesActive}));
     return weeklyMiles;
   }
@@ -54,13 +55,14 @@ class Activity {
     return userStepGoal;
   }
 
-  confirmCurrentStepGoal(date) {
+  confirmCurrentStepGoal(endDate) {
     const userStepGoal = this.findStepGoal();
-    const stepsToday = this.findDay(date).numSteps;
-    return stepsToday > userStepGoal ? true : false;
+    const day = this.findDay(endDate);
+    const blah = day.numSteps;
+    return blah > userStepGoal ? true : false;
   }
 
-  confirmAllStepGoal() {
+  extractAchievedStepDays() {
     const userStepGoal = this.findStepGoal();
     const userData = this.extractData();
     const achievedDays = userData.filter(steps => steps.numSteps > userStepGoal);
@@ -74,10 +76,9 @@ class Activity {
     return numOfStairs;
   }
 
-
-  findAverageStairsForAll(date) {
+  findAllUsersStairsAverage(date) {
     const userCount = this.userData.length;
-    const allUserData = this.activityData.filter(user => user.date === date)
+    const allUserData = this.activityData.filter(user => user.date === date);
     const total = allUserData.reduce( (sum, current) => {
       return sum + current.flightsOfStairs;
     }, 0);
@@ -85,6 +86,25 @@ class Activity {
     return stairAverage.toFixed(1);
   }
 
+  findAllUsersStepsAverage(date) {
+    const userCount = this.userData.length;
+    const allUserData = this.activityData.filter(user => user.date === date);
+    const total = allUserData.reduce( (sum, current) => {
+      return sum + current.numSteps;
+    }, 0);
+    const stepAverage = total/userCount;
+    return stepAverage.toFixed(1);
+  }
+  
+  finAllUsersMinutesAverage(date) {
+    const userCount = this.userData.length;
+    const allUserData = this.activityData.filter(user => user.date === date);
+    const total = allUserData.reduce( (sum, current) => {
+      return sum + current.minutesActive;
+    }, 0);
+    const stepAverage = total/userCount;
+    return stepAverage.toFixed(1);
+  }
 }
 
 if (typeof module !== 'undefined') {

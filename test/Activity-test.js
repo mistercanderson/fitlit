@@ -19,7 +19,7 @@ describe('Activity', () => {
     expect(activity).to.be.an.instanceOf(Activity);
   });
 
-  it('should calculate the number of steps, in miles, for any specific day', () => {
+  it('should calculate the number of steps, in miles, for any given day', () => {
     expect(activity.calculateDailyMiles('2019/06/15')).to.be.deep.equal('3.0');
   });
 
@@ -38,32 +38,32 @@ describe('Activity', () => {
       { date: '2019/06/15', minutesActive: 140 }
     ]);
   });
-
-  it('should confirm if their step goal was reached for any day', () => {
+  
+  it('should confirm if their step goal was reached for that day', () => {
     expect(activity.confirmCurrentStepGoal('2019/06/19')).to.be.equal(false);
     expect(activity.confirmCurrentStepGoal('2019/06/20')).to.be.equal(true);
   });
 
-  it('should return all days exceeding their goal', () => {
-    expect(activity.confirmAllStepGoal(activityData)).to.be.deep.equal([
-      { date: '2019/06/20', numSteps: 13948 },
+  it('should return all days exceeding their daily step goal', () => {
+    expect(activity.extractAchievedStepDays(activityData)).to.be.deep.equal([
       { date: '2019/06/21', numSteps: 14419 },
+      { date: '2019/06/20', numSteps: 13948 },
     ]);
   });
 
-  it('should extract their all time record', () => {
+  it('should extract a user\'s all time flight of stairs climbed record', () => {
     expect(activity.findAllTimeStairs(activityData)).to.be.equal(35);
   });
 
-  it.only('should calculate all user\'s average stairs climbed for any given day', () => {
-    expect(activity.findAverageStairsForAll("2019/06/15")).to.be.equal('20.3');
+  it('should calculate the average stairs climbed for all user\'s on any given day', () => {
+    expect(activity.findAllUsersStairsAverage("2019/06/15")).to.be.equal('20.3');
   });
 
-  it.skip('should calculate all user\'s average steps taken for any given day', () => {
-    expect(activity.findAverageStepsForAll("2019/06/15"), activityData).to.be.equal(6145.7);
+  it('should calculate the average steps taken for all user\'s on any given day', () => {
+    expect(activity.findAllUsersStepsAverage("2019/06/15")).to.be.equal('6145.7');
   });
 
-  it.skip('should calculate all user\'s average minutes active for any give day', () => {
-    expect(activity.findAverageMinsForAll("2019/06/15")).to.be.equal(155.7);
+  it('should calculate the average minutes active for all user\'s on any given day', () => {
+    expect(activity.finAllUsersMinutesAverage("2019/06/15")).to.be.equal('155.7');
   });
 });
