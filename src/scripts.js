@@ -22,7 +22,6 @@ window.addEventListener('click', (event) => displayUserInfo(currentUser, event))
 window.addEventListener('load', () => loadFunctions());
 window.addEventListener('mouseover', (event) => backgroundColorChange(event));
 
-
 function displayUserInfo(user, event) {
   const userKeys = Object.keys(user);
   userKeys.forEach(key => {
@@ -103,6 +102,7 @@ const generateRandomUser = () => {
 const loadFunctions = () => {
   displayWelcome();
   renderHydrationChart(currentDate);
+  renderActivityChart(currentDate);
 };
 
 function displayWelcome() {
@@ -111,6 +111,43 @@ function displayWelcome() {
   userGreeting.innerHTML += `
   <h1>Let's Get FitLit, ${currentUser.sayName()}!</h1>
   <h3>${userRepo.allUsersAverageSteps()} is the average step goal for all FitLit users</h3>`;
+}
+
+function renderActivityChart(date) {
+  Chart.defaults.global.defaultFontColor = 'white';
+  Chart.defaults.global.defaultFontStyle = 'italic';
+  Chart.defaults.global.defaultFontSize = 18;
+  Chart.defaults.global.animationDuration = .5;
+  Chart.defaults.global.animationEasing = 'easeInBounce';
+
+  const activityElement = document.getElementById('activityChart').getContext('2d');
+  const userActivityData = new Activity (currentUser.id, activityData, userData);
+  let dailyMiles = userActivityData.calculateDailyMiles((date));
+  let dailyMinutesActive = userActivityData.calculateDailyMinutes(date);
+  let dailySteps = userActivityData.findDailySteps(date);
+
+  let myBarChart = new Chart(activityElement, {
+    type: 'doughnut',
+    data: {
+      labels: ['Miles', 'Active Minutes', 'Steps'],
+      datasets: [{
+        data: [`${dailyMiles}`, `${dailyMinutesActive}`, `${dailySteps}` ],
+        backgroundColor: ['#35d0ba', '#ffcd3c', '#ff9234'],
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Activities Today',
+        fontStyle: '',
+      },
+      legend: {
+        position: 'right',
+      },
+      layout: {},
+      tooltips: {},
+    },
+  });
 }
 
 function renderHydrationChart(date) {
