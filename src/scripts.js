@@ -71,6 +71,7 @@ function cardToggle(event) {
       cardKeys.forEach(cardKey => {
         if (cardKey === 'activity') {
           cards[cardKey].classList.remove('hidden');
+          cards[cardKey].classList.add('chart')
         } else {
           cards[cardKey].classList.add('hidden');
         }
@@ -80,6 +81,7 @@ function cardToggle(event) {
       cardKeys.forEach(cardKey => {
         if (cardKey === 'hydration') {
           cards[cardKey].classList.remove('hidden');
+          cards[cardKey].classList.add('chart')
         } else {
           cards[cardKey].classList.add('hidden');
         }
@@ -89,6 +91,7 @@ function cardToggle(event) {
       cardKeys.forEach(cardKey => {
         if (cardKey === 'sleep') {
           cards[cardKey].classList.remove('hidden');
+          cards[cardKey].classList.add('chart')
         } else {
           cards[cardKey].classList.add('hidden');
         }
@@ -100,6 +103,7 @@ function cardToggle(event) {
           cards[cardKey].classList.add('hidden');
         } else {
           cards[cardKey].classList.remove('hidden');
+          cards[cardKey].classList.remove('chart')
           returnCardsToDefault(cardKey)
         }
       });
@@ -180,7 +184,7 @@ function renderCharts(date, event) {
 }
 
 function renderActivityChart(date) {
-  cards.activity.innerHTML = `<div id="closeButton">❌</div><canvas class="activity-tracker chart" id="activityChart"></canvas>`
+  cards.activity.innerHTML = `<div id="closeButton">❌</div><canvas class="activity-tracker" id="activityChart"></canvas>`
   const activityElement = document.getElementById('activityChart').getContext('2d');
   const userActivityData = new Activity(currentUser.id, activityData, userData);
   let dailyMiles = userActivityData.calculateDailyMiles((date));
@@ -212,22 +216,19 @@ function renderActivityChart(date) {
 }
 
 function renderHydrationChart(date) {
-  cards.hydration.innerHTML = `<div id="closeButton">❌</div><canvas class="hydration-station chart" id="hydrationChart"></canvas>`;
-  // Stores chart element & context to be passed into Chart instance
-  const hydrationElement = document.getElementById('hydrationChart').getContext('2d');
-  // Creates instance of Hydration class using currentUser & data
   const userHydrationData = new Hydration(currentUser.id, hydrationData);
   let dailyOunces = userHydrationData.calculateDailyOunces(date);
   let weeklyOunces = userHydrationData.calculateWeeklyOunces(date);
-  // Creates instance of Chart using html element
+  cards.hydration.innerHTML = `<div id="closeButton">❌</div>
+  <p class="hydration-station">You've had ${dailyOunces} oz. of water today, and ${weeklyOunces} oz. this week!</p>
+  <canvas class="hydration-station" id="hydrationChart"></canvas>`;
+  const hydrationElement = document.getElementById('hydrationChart').getContext('2d');
   let hydrationChart = new Chart(hydrationElement, {
-    // Object containing various chart configuration settings
     type: 'doughnut',
     data: {
       labels: [`Today`, `This Week`],
       datasets: [{
         label: 'Ounces of Water Consumed',
-        // Use data from Hydration instance to apply to chart, must be integer values
         data: [`${dailyOunces}`, `${weeklyOunces}`],
         backgroundColor: ['#9ab3f5', '#a3d8f4'],
         borderWidth: 0,

@@ -16,7 +16,7 @@ body {
 
 .color-stripes {
   position: fixed;
-  z-index: -1;
+  z-index: -2;
   width: 150%;
   height: 200px;
   display: flex;
@@ -115,6 +115,7 @@ main {
   letter-spacing: 3px;
 }
 
+
 .user-card {
   display: flex;
   justify-content: space-around;
@@ -138,6 +139,17 @@ main {
 
 .sleep-hygiene:hover {
   background-color: #151515;
+}
+
+.chart {
+  justify-content: space-around;
+  padding: 1em;
+}
+
+.chart>div {
+  justify-self: baseline;
+  align-self: flex-end;
+  cursor: pointer;
 }
 
 .hidden {
