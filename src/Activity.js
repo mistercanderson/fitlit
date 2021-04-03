@@ -27,8 +27,13 @@ class Activity {
     return calculateMiles.toFixed(1);
   }
 
+  findDailySteps(date) {
+    return this.findDay(date).numSteps;
+  }
+
   calculateDailyMinutes(date) {
     let minutesActive = this.userData.filter(user => user.date === date);
+    // console.log(this.userInformation)
     return minutesActive[0].minutesActive;
   }
 

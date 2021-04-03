@@ -97,6 +97,7 @@ const getRandomNum = (array) => {
 const generateRandomUser = () => {
   let randomUser = userData[getRandomNum(userData)];
   let user = new User(randomUser);
+  // console.log(user.id)
   return user;
 };
 
@@ -114,9 +115,6 @@ function displayWelcome() {
   <h3>${userRepo.allUsersAverageSteps()} is the average step goal for all FitLit users</h3>`;
 }
 
-
-
-///////////////// PLAY ///////////////////////
 function renderActivityChart(date) {
   Chart.defaults.global.defaultFontColor = 'white';
   Chart.defaults.global.defaultFontStyle = 'italic';
@@ -128,32 +126,16 @@ function renderActivityChart(date) {
   const userActivityData = new Activity (currentUser.id, activityData, userData);
   let dailyMiles = userActivityData.calculateDailyMiles((date));
   let dailyMinutesActive = userActivityData.calculateDailyMinutes(date);
-  let dailySteps = userActivityData.userInformation.numSteps;
-  
+  let dailySteps = userActivityData.findDailySteps(date);
 
   let myBarChart = new Chart(activityElement, {
-    type: 'bar',
+    type: 'doughnut',
     data: {
-      labels:['Miles', 'Active Minutes', 'Steps'],
+      labels: ['Miles', 'Active Minutes', 'Steps'],
       datasets: [{
-        barPercentage: 0.5,
-        barThickness: 6,
-        maxBarThickness: 8,
-        minBarLength: 2,
         data: [`${dailyMiles}`, `${dailyMinutesActive}`, `${dailySteps}` ],
+        backgroundColor: ['#ac0d0d', '#f48b29', '#f0c929'],
       }]
-
-      // labels: [`Miles`, `Active`],
-      // datasets: [{
-      //   label: 'Activities today',
-      //   // Use data from Hydration instance to apply to chart, must be integer values
-      //   data: [`${dailyMiles}`, `${dailyMinutesActive}`],
-      //   backgroundColor: ['#9ab3f5', '#a3d8f4'],
-      //   borderWidth: 0,
-      //   hoverBorderColor: '#b9fffc',
-      //   hoverBorderWidth: 1
-      // }]
-
     },
     options: {
       title: {
@@ -162,21 +144,13 @@ function renderActivityChart(date) {
         fontStyle: '',
       },
       legend: {
-        position: 'start',
+        position: 'right',
       },
       layout: {},
       tooltips: {},
     },
   });
 }
-
-
-
-
-
-
-
-
 
 function renderHydrationChart(date) {
   // Could eventually rename this function renderChartData & put separate helper functions within
