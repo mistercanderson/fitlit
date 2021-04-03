@@ -18,9 +18,14 @@ const cards = {
   sleep: document.getElementById('sleepHygiene')
 };
 
-window.addEventListener('click', (event) => displayUserInfo(currentUser, event));
+window.addEventListener('click', (event) => clickFunctions(currentUser, event));
 window.addEventListener('load', () => loadFunctions());
 window.addEventListener('mouseover', (event) => backgroundColorChange(event));
+
+function clickFunctions(user, event) {
+  displayUserInfo(user, event);
+  renderCharts(currentDate, event)
+}
 
 function displayUserInfo(user, event) {
   const userKeys = Object.keys(user);
@@ -47,10 +52,10 @@ function displayUserInfo(user, event) {
         currentElement.innerText += `${removeCamelCase(key)}: ${user[key]}`;
     }
   });
-  userProfileToggle(event);
+  cardToggle(event);
 }
 
-function userProfileToggle(event) {
+function cardToggle(event) {
   const cardKeys = Object.keys(cards);
   switch (event.target.id) {
     case 'profileTab':
@@ -62,15 +67,57 @@ function userProfileToggle(event) {
         }
       });
       break;
+    case 'activityTracker':
+      cardKeys.forEach(cardKey => {
+        if (cardKey === 'activity') {
+          cards[cardKey].classList.remove('hidden');
+        } else {
+          cards[cardKey].classList.add('hidden');
+        }
+      });
+      break;
+    case 'hydrationStation':
+      cardKeys.forEach(cardKey => {
+        if (cardKey === 'hydration') {
+          cards[cardKey].classList.remove('hidden');
+        } else {
+          cards[cardKey].classList.add('hidden');
+        }
+      });
+      break;
+    case 'sleepHygiene':
+      cardKeys.forEach(cardKey => {
+        if (cardKey === 'sleep') {
+          cards[cardKey].classList.remove('hidden');
+        } else {
+          cards[cardKey].classList.add('hidden');
+        }
+      });
+      break
     case 'closeButton':
       cardKeys.forEach(cardKey => {
         if (cardKey === 'user') {
           cards[cardKey].classList.add('hidden');
         } else {
           cards[cardKey].classList.remove('hidden');
+          returnCardsToDefault(cardKey)
         }
       });
       break;
+  }
+}
+
+function returnCardsToDefault(card) {
+  switch (true) {
+    case card === 'hydration':
+      cards[card].innerHTML = `<h3 class="hydration-station">Hydration Station</h3>`
+      break;
+    case card === 'activity':
+      cards[card].innerHTML = `<h3 class="activity-tracker">Activity Tracker</h3>`
+      break;
+    case card === 'sleep':
+      cards[card].innerHTML = `<h3 class="sleep-hygiene">Sleep Hygiene</h3>`
+      break
   }
 }
 
@@ -101,8 +148,8 @@ const generateRandomUser = () => {
 
 const loadFunctions = () => {
   displayWelcome();
-  renderHydrationChart(currentDate);
-  renderActivityChart(currentDate);
+  // renderHydrationChart(currentDate);
+  // renderActivityChart(currentDate);
 };
 
 function displayWelcome() {
@@ -113,15 +160,29 @@ function displayWelcome() {
   <h3>${userRepo.allUsersAverageSteps()} is the average step goal for all FitLit users</h3>`;
 }
 
-function renderActivityChart(date) {
+function renderCharts(date, event) {
   Chart.defaults.global.defaultFontColor = 'white';
   Chart.defaults.global.defaultFontStyle = 'italic';
   Chart.defaults.global.defaultFontSize = 18;
   Chart.defaults.global.animationDuration = .5;
   Chart.defaults.global.animationEasing = 'easeInBounce';
+  switch (event.target.id) {
+    case 'hydrationStation':
+      renderHydrationChart(date)
+      break;
+    case 'activityTracker':
+      renderActivityChart(date)
+      break;
+    case 'sleepHygiene':
+      renderSleepChart(date)
+      break;
+  }
+}
 
+function renderActivityChart(date) {
+  cards.activity.innerHTML = `<div id="closeButton">❌</div><canvas class="activity-tracker chart" id="activityChart"></canvas>`
   const activityElement = document.getElementById('activityChart').getContext('2d');
-  const userActivityData = new Activity (currentUser.id, activityData, userData);
+  const userActivityData = new Activity(currentUser.id, activityData, userData);
   let dailyMiles = userActivityData.calculateDailyMiles((date));
   let dailyMinutesActive = userActivityData.calculateDailyMinutes(date);
   let dailySteps = userActivityData.findDailySteps(date);
@@ -131,7 +192,7 @@ function renderActivityChart(date) {
     data: {
       labels: ['Miles', 'Active Minutes', 'Steps'],
       datasets: [{
-        data: [`${dailyMiles}`, `${dailyMinutesActive}`, `${dailySteps}` ],
+        data: [`${dailyMiles}`, `${dailyMinutesActive}`, `${dailySteps}`],
         backgroundColor: ['#35d0ba', '#ffcd3c', '#ff9234'],
       }]
     },
@@ -151,15 +212,7 @@ function renderActivityChart(date) {
 }
 
 function renderHydrationChart(date) {
-  // Could eventually rename this function renderChartData & put separate helper functions within
-  // Global chart options
-  Chart.defaults.global.defaultFontColor = 'white';
-  Chart.defaults.global.defaultFontStyle = 'italic';
-  Chart.defaults.global.defaultFontSize = 18;
-  Chart.defaults.global.animationDuration = .5;
-  Chart.defaults.global.animationEasing = 'easeInBounce';
-  // Sets up chart html element CHANGED THIS TO HARDCODE INSIDE HTML
-  // cards.hydration.innerHTML += `<canvas class="hydration-station chart" id="hydrationChart"></canvas>`;
+  cards.hydration.innerHTML = `<div id="closeButton">❌</div><canvas class="hydration-station chart" id="hydrationChart"></canvas>`;
   // Stores chart element & context to be passed into Chart instance
   const hydrationElement = document.getElementById('hydrationChart').getContext('2d');
   // Creates instance of Hydration class using currentUser & data
@@ -186,6 +239,38 @@ function renderHydrationChart(date) {
       title: {
         display: true,
         text: 'Ounces of Water Consumed',
+        fontStyle: '',
+      },
+      legend: {
+        position: 'right',
+      },
+      layout: {},
+      tooltips: {},
+    },
+  });
+}
+
+function renderSleepChart(date) {
+  cards.sleep.innerHTML = `<div id="closeButton">❌</div><canvas class="sleep-hygiene chart" id="sleepChart"></canvas>`
+  const sleepElement = document.getElementById('sleepChart').getContext('2d');
+  const userSleepData = new Activity(currentUser.id, activityData, userData);
+  let dailyMiles = userSleepData.calculateDailyMiles((date));
+  let dailyMinutesActive = userSleepData.calculateDailyMinutes(date);
+  let dailySteps = userSleepData.findDailySteps(date);
+
+  let myBarChart = new Chart(sleepElement, {
+    type: 'doughnut',
+    data: {
+      labels: ['Miles', 'Active Minutes', 'Steps'],
+      datasets: [{
+        data: [`${dailyMiles}`, `${dailyMinutesActive}`, `${dailySteps}`],
+        backgroundColor: ['#35d0ba', '#ffcd3c', '#ff9234'],
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Activities Today',
         fontStyle: '',
       },
       legend: {
