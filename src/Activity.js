@@ -15,7 +15,7 @@ class Activity {
   extractStride() {
     const userStride = this.userData.filter(user => user.id === this.userId);
     return userStride[0].strideLength;
-    };
+  }
   
   calculateDailyMiles(date) {
     const userData = this.extractData();
@@ -59,7 +59,7 @@ class Activity {
     const stepsToday = this.findDay(date).numSteps;
     return stepsToday > userStepGoal ? true : false;
   }
-  
+
   confirmAllStepGoal() {
     const userStepGoal = this.findStepGoal();
     const userData = this.extractData();
@@ -67,6 +67,24 @@ class Activity {
     const days = achievedDays.map(({date, numSteps}) =>({date, numSteps}))
     return days;
   }
+
+  findAllTimeStairs() {
+    const userData = this.extractData();
+    const numOfStairs = Math.max.apply(Math, userData.map(o => o.flightsOfStairs));
+    return numOfStairs;
+  }
+
+
+  findAverageStairsForAll(date) {
+    const userCount = this.userData.length;
+    const allUserData = this.activityData.filter(user => user.date === date)
+    const total = allUserData.reduce( (sum, current) => {
+      return sum + current.flightsOfStairs;
+    }, 0);
+    const stairAverage = total/userCount;
+    return stairAverage.toFixed(1);
+  }
+
 }
 
 if (typeof module !== 'undefined') {
