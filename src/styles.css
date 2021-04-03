@@ -101,7 +101,7 @@ main {
   max-height: 20em;
   max-width: 30em;
   background-color: rgba(194, 202, 193, 0.774);
-  color: white;
+  color: rgba(0, 0, 0, 0.600);
   border: .1em solid transparent;
 }
 
@@ -113,8 +113,8 @@ main {
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 3px;
+  pointer-events: none;
 }
-
 
 .user-card {
   display: flex;
@@ -144,12 +144,17 @@ main {
 .chart {
   justify-content: space-around;
   padding: 1em;
+  color: white
 }
 
 .chart>div {
   justify-self: baseline;
   align-self: flex-end;
   cursor: pointer;
+}
+
+.chart>p {
+  font-weight: 100;
 }
 
 .hidden {

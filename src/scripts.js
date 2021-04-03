@@ -220,7 +220,7 @@ function renderHydrationChart(date) {
   let dailyOunces = userHydrationData.calculateDailyOunces(date);
   let weeklyOunces = userHydrationData.calculateWeeklyOunces(date);
   cards.hydration.innerHTML = `<div id="closeButton">❌</div>
-  <p class="hydration-station">You've had ${dailyOunces} oz. of water today, and ${weeklyOunces} oz. this week!</p>
+  <p class="hydration-station">You've had <strong>${dailyOunces} oz.</strong> of water today, and <strong>${weeklyOunces} oz.</strong> this week! Chug! Chug! Chug! Like a fish, baby!</p>
   <canvas class="hydration-station" id="hydrationChart"></canvas>`;
   const hydrationElement = document.getElementById('hydrationChart').getContext('2d');
   let hydrationChart = new Chart(hydrationElement, {
