@@ -191,7 +191,7 @@ function renderActivityChart(date) {
   let allUsersStairs = userActivityData.findAllUsersStairsAverage(date);
   let allUsersSteps = userActivityData.findAllUsersStepsAverage(date);
   let allUsersMinutes = userActivityData.finAllUsersMinutesAverage(date);
-  
+
   cards.activity.innerHTML = `<div id="closeButton">❌</div><p class="activity-tracker">Today you've been active for <strong>${dailyMinutesActive} minutes</strong> and taken taken <strong>${dailySteps} steps</strong> [equivalent to <strong>${dailyMiles} miles</strong>]<canvas class="activity-tracker" id="activityChart"><p>This past week's stats:</p>`
   const activityElement = document.getElementById('activityChart').getContext('2d');
   let myActivityChart = new Chart(activityElement, {
@@ -209,12 +209,36 @@ function renderActivityChart(date) {
       }]
     },
     options: {
-      legend: { display: false },
       title: {
         display: true,
         text: 'Personal Stats Compared to All Users\'',
+      },
+      tooltips: {
+        enabled: true
+      },
+      hover: {
+        animationDuration: 1
+      },
+      animation: {
+      duration: 1,
+      onComplete: function() {
+        var chartInstance = this.chart,
+          ctx = chartInstance.ctx;
+          ctx.textAlign = 'center';
+          ctx.fillStyle = "rgb(255,255,255)";
+          ctx.textBaseline = 'bottom';
+          this.data.datasets.forEach((dataset, i) => {
+            var meta = chartInstance.controller.getDatasetMeta(i);
+            meta.data.forEach((bar, index) => {
+              var data = dataset.data[index];
+              ctx.fillText(data, bar._model.x, bar._model.y - 5);
+            });
+          });
+        }
       }
     }
+
+
   });
 
   // Donut Chart 
