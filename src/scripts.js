@@ -254,33 +254,38 @@ function renderHydrationChart(date) {
 function renderSleepChart(date) {
   cards.sleep.innerHTML = `<div id="closeButton">❌</div><canvas class="sleep-hygiene chart" id="sleepChart"></canvas>`
   const sleepElement = document.getElementById('sleepChart').getContext('2d');
-  const userSleepData = new Activity(currentUser.id, activityData, userData);
-  let dailyMiles = userSleepData.calculateDailyMiles((date));
-  let dailyMinutesActive = userSleepData.calculateDailyMinutes(date);
-  let dailySteps = userSleepData.findDailySteps(date);
+  const userSleepData = new Sleep(currentUser.id, sleepData);
+  let dailySleepHours = userSleepData.findDailyHours(date);
+  let dailySleepQuality = userSleepData.findDailyQuality(date);
+  let weeklySleepHours = userSleepData.calculateAverageHoursWeekly(date);
+  let weeklySleepQuality = userSleepData.calculateAverageQualityWeekly(date);
+  let averageSleepHours = userSleepData.calculateAverageHoursTotal();
+  let averageSleepQuality = userSleepData.calculateAverageQualityTotal();
 
   let myBarChart = new Chart(sleepElement, {
-    type: 'doughnut',
+    type: 'bar',
     data: {
-      labels: ['Miles', 'Active Minutes', 'Steps'],
+      labels: ['Hours Today', 'Hours This Week', 'Quality Today', 'Quality This Week', 'Average Hours', 'Average Quality'],
       datasets: [{
-        data: [`${dailyMiles}`, `${dailyMinutesActive}`, `${dailySteps}`],
-        backgroundColor: ['#35d0ba', '#ffcd3c', '#ff9234'],
+        data: [`${dailySleepHours}`, `${weeklySleepHours}`, `${dailySleepQuality}`, `${weeklySleepQuality}`, `${averageSleepHours}`, `${averageSleepQuality}`],
+        // backgroundColor: ['#35d0ba', '#ffcd3c', '#ff9234'],
       }]
     },
     options: {
       title: {
         display: true,
-        text: 'Activities Today',
+        text: 'Your Sleep Data',
         fontStyle: '',
       },
       legend: {
+        display: false,
         position: 'right',
       },
       layout: {},
       tooltips: {},
     },
   });
+  myBarChart.options.scales
 }
 
 function backgroundColorChange(event) {
