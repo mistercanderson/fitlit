@@ -184,20 +184,21 @@ function renderCharts(date, event) {
 
 function renderActivityChart(date) {
   const userActivityData = new Activity(currentUser.id, activityData, userData);
-  let dailyMiles = userActivityData.calculateDailyMiles((date));
-  let dailyMinutesActive = userActivityData.calculateDailyMinutes(date);
-  let dailySteps = userActivityData.findDailySteps(date);
-  let dailyStairs = userActivityData.findDailyStairs(date);
-  let allUsersStairs = userActivityData.findAllUsersStairsAverage(date);
-  let allUsersSteps = userActivityData.findAllUsersStepsAverage(date);
-  let allUsersMinutes = userActivityData.finAllUsersMinutesAverage(date);
+  const dailyMiles = userActivityData.calculateDailyMiles((date));
+  const dailyMinutesActive = userActivityData.calculateDailyMinutes(date);
+  const dailySteps = userActivityData.findDailySteps(date);
+  const dailyStairs = userActivityData.findDailyStairs(date);
+  const allUsersStairs = userActivityData.findAllUsersStairsAverage(date);
+  const allUsersSteps = userActivityData.findAllUsersStepsAverage(date);
+  const allUsersMinutes = userActivityData.finAllUsersMinutesAverage(date);
 
   cards.activity.innerHTML = `<div id="closeButton">❌</div><p class="activity-tracker">Today you've been active for <strong>${dailyMinutesActive} minutes</strong> and taken taken <strong>${dailySteps} steps</strong> [equivalent to <strong>${dailyMiles} miles</strong>]<canvas class="activity-tracker" id="activityChart"><p>This past week's stats:</p>`
+  
   const activityElement = document.getElementById('activityChart').getContext('2d');
-  let myActivityChart = new Chart(activityElement, {
+  const myActivityChart = new Chart(activityElement, {
     type: 'bar',
     data: {
-      labels: ['Stairs', 'Active Minutes', 'Steps'],
+      labels: ['Flights of Stairs', 'Active Minutes', 'Steps'],
       datasets: [{
         label: 'User\'s data',
         backgroundColor: ['#35d0ba','#35d0ba','#35d0ba'],
@@ -208,9 +209,6 @@ function renderActivityChart(date) {
         data: [`${allUsersStairs}`,`${allUsersMinutes}`,`${allUsersSteps}`],
       }]
     },
-
-    // stripe1.style.backgroundColor = '#35d0ba'
-    // stripe2.style.backgroundColor = '#ffcd3c'
     options: {
       title: {
         display: true,
@@ -240,8 +238,6 @@ function renderActivityChart(date) {
         }
       }
     }
-
-
   });
 
   // Donut Chart 
