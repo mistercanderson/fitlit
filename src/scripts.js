@@ -200,18 +200,21 @@ function renderActivityChart(date) {
       labels: ['Stairs', 'Active Minutes', 'Steps'],
       datasets: [{
         label: 'User\'s data',
-        backgroundColor: ["#3cba9f","#e8c3b9","#c45850"],
+        backgroundColor: ['#35d0ba','#35d0ba','#35d0ba'],
         data: [`${dailyStairs}`, `${dailyMinutesActive}`, `${dailySteps}`],
       }, {
         label: 'All users\' average data',
-        backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f"],
+        backgroundColor: ['#ffcd3c','#ffcd3c','#ffcd3c'],
         data: [`${allUsersStairs}`,`${allUsersMinutes}`,`${allUsersSteps}`],
       }]
     },
+
+    // stripe1.style.backgroundColor = '#35d0ba'
+    // stripe2.style.backgroundColor = '#ffcd3c'
     options: {
       title: {
         display: true,
-        text: 'Personal Stats Compared to All Users\'',
+        text: 'How Do You Square Up?',
       },
       tooltips: {
         enabled: true
