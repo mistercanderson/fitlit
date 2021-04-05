@@ -2,15 +2,16 @@ class Sleep {
   constructor(userId, sleepData) {
     this.userId = userId;
     this.data = sleepData;
-    this.userData = this.extractData();
+    // this.userData = this.extractData();
   }
 
   extractData() {
     const userData = this.data.filter(user => user.userID === this.userId);
-    return userData;
+    this.userData = userData;
   }
 
   findDay(date) {
+    this.extractData()
     const day = this.userData.find(dataPoint => dataPoint.date === date);
     return day;
   }

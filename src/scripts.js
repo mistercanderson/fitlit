@@ -164,10 +164,10 @@ function displayWelcome() {
 
 function renderCharts(date, event) {
   Chart.defaults.global.defaultFontColor = 'white';
-  Chart.defaults.global.defaultFontStyle = 'italic';
-  Chart.defaults.global.defaultFontSize = 18;
-  Chart.defaults.global.animationDuration = .5;
-  Chart.defaults.global.animationEasing = 'easeInBounce';
+  // Chart.defaults.global.defaultFontStyle = 'italic';
+  // Chart.defaults.global.defaultFontSize = 18;
+  // Chart.defaults.global.animationDuration = .5;
+  // Chart.defaults.global.animationEasing = 'easeInBounce';
   switch (event.target.id) {
     case 'hydrationStation':
       renderHydrationChart(date)
@@ -291,46 +291,86 @@ function renderHydrationChart(date) {
         text: 'Ounces of Water Consumed',
         fontStyle: '',
       },
-      legend: {
-        position: 'right',
-      },
-      layout: {},
-      tooltips: {},
     },
   });
 }
 
 function renderSleepChart(date) {
+  cards.sleep.innerHTML = `<div id="closeButton">❌</div><canvas class="sleep-hygiene" id="sleepHoursChart"></canvas><canvas class="sleep-hygiene" id="sleepQualityChart"></canvas>`
+  const sleepHoursElement = document.getElementById('sleepHoursChart').getContext('2d');
+  const sleepQualityElement = document.getElementById('sleepQualityChart').getContext('2d');
   const userSleepData = new Sleep(currentUser.id, sleepData);
-  const dailyHours = userSleepData.calculateAverageHoursTotal(date);
-  const dailyQuality = userSleepData.calculateAverageQualityTotal();
-  const allTimeQuality = userSleepData.calculateGlobalQualityAverage(date);
+  let dailySleepHours = userSleepData.findDailyHours(date);
+  let dailySleepQuality = userSleepData.findDailyQuality(date);
+  let weeklySleepHours = userSleepData.calculateAverageHoursWeekly(date);
+  let weeklySleepQuality = userSleepData.calculateAverageQualityWeekly(date);
+  let averageSleepHours = userSleepData.calculateAverageHoursTotal();
+  let averageSleepQuality = userSleepData.calculateAverageQualityTotal();
 
-  cards.sleep.innerHTML = `<div id="closeButton">❌</div>
-  <p class="sleep-hygiene">You've slept <strong> ${dailyHours} hours</strong>, a sleep <strong>quality </strong>of <strong>${dailyQuality}</strong>. Get your beauty sleep!</p> 
-  <canvas class="sleep-hygiene chart" id="sleepChart"></canvas>`
-  
-  const sleepElement = document.getElementById('sleepChart').getContext('2d');
-  let myBarChart = new Chart(sleepElement, {
-    type: 'doughnut',
+  let sleepHoursChart = new Chart(sleepHoursElement, {
+    type: 'bar',
     data: {
-      labels: ['Hours','Quality'],
+      labels: ['Hours Today', 'Hourly Average This Week', 'Total Average Hours'],
       datasets: [{
-        data: [`${dailyHours}`,`${dailyQuality}`],
-        backgroundColor: ['#301b3f', '#3c415c'],
+        data: [dailySleepHours, weeklySleepHours, averageSleepHours],
+        backgroundColor: ['#301b3f', '#301b3f', '#3c415c'],
+        borderColor: 'white',
+        borderWidth: 3,
+        // hoverBorderColor: '#b9fffc',
+        // hoverBorderWidth: 1
       }]
     },
     options: {
       title: {
         display: true,
-        text: 'Sleep Hygiene',
+        text: 'Sleep Hours',
         fontStyle: '',
       },
       legend: {
+        display: false,
         position: 'right',
       },
       layout: {},
       tooltips: {},
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          },
+        }]
+      }
+    },
+  });
+  let sleepQualityChart = new Chart(sleepQualityElement, {
+    type: 'bar',
+    data: {
+      labels: ['Quality Today', 'Quality Average This Week', 'Total Average Quality'],
+      datasets: [{
+        data: [dailySleepQuality, weeklySleepQuality, averageSleepQuality],
+        backgroundColor: ['#b4a5a5', '#b4a5a5', '#3c415c'],
+        borderColor: 'white',
+        borderWidth: 3,
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Sleep Quality',
+        fontStyle: '',
+      },
+      legend: {
+        display: false,
+        position: 'right',
+      },
+      layout: {},
+      tooltips: {},
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
     },
   });
 }
