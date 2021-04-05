@@ -252,8 +252,9 @@ function renderHydrationChart(date) {
 }
 
 function renderSleepChart(date) {
-  cards.sleep.innerHTML = `<div id="closeButton">❌</div><canvas class="sleep-hygiene chart" id="sleepChart"></canvas>`
-  const sleepElement = document.getElementById('sleepChart').getContext('2d');
+  cards.sleep.innerHTML = `<div id="closeButton">❌</div><canvas class="sleep-hygiene" id="sleepHoursChart"></canvas><canvas class="sleep-hygiene" id="sleepQualityChart"></canvas>`
+  const sleepHoursElement = document.getElementById('sleepHoursChart').getContext('2d');
+  const sleepQualityElement = document.getElementById('sleepQualityChart').getContext('2d');
   const userSleepData = new Sleep(currentUser.id, sleepData);
   let dailySleepHours = userSleepData.findDailyHours(date);
   let dailySleepQuality = userSleepData.findDailyQuality(date);
@@ -262,19 +263,23 @@ function renderSleepChart(date) {
   let averageSleepHours = userSleepData.calculateAverageHoursTotal();
   let averageSleepQuality = userSleepData.calculateAverageQualityTotal();
 
-  let myBarChart = new Chart(sleepElement, {
+  let sleepHoursChart = new Chart(sleepHoursElement, {
     type: 'bar',
     data: {
-      labels: ['Hours Today', 'Hours This Week', 'Quality Today', 'Quality This Week', 'Average Hours', 'Average Quality'],
+      labels: ['Hours Today', 'Hourly Average This Week', 'Total Average Hours'],
       datasets: [{
-        data: [`${dailySleepHours}`, `${weeklySleepHours}`, `${dailySleepQuality}`, `${weeklySleepQuality}`, `${averageSleepHours}`, `${averageSleepQuality}`],
-        // backgroundColor: ['#35d0ba', '#ffcd3c', '#ff9234'],
+        data: [dailySleepHours, weeklySleepHours, averageSleepHours],
+        backgroundColor: ['#301b3f', '#301b3f', '#3c415c'],
+        borderColor: 'white',
+        borderWidth: 1,
+        hoverBorderColor: '#b9fffc',
+        hoverBorderWidth: 1
       }]
     },
     options: {
       title: {
         display: true,
-        text: 'Your Sleep Data',
+        text: 'Sleep Hours',
         fontStyle: '',
       },
       legend: {
@@ -285,7 +290,31 @@ function renderSleepChart(date) {
       tooltips: {},
     },
   });
-  myBarChart.options.scales
+  let sleepQualityChart = new Chart(sleepQualityElement, {
+    type: 'bar',
+    data: {
+      labels: ['Quality Today', 'Quality Average This Week', 'Total Average Quality'],
+      datasets: [{
+        data: [dailySleepQuality, weeklySleepQuality, averageSleepQuality],
+        // color stripes
+        // sleep: #151515 #301b3f #3c415c #b4a5a5
+        backgroundColor: ['#b4a5a5', '#b4a5a5', '#3c415c'],
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Sleep Quality',
+        fontStyle: '',
+      },
+      legend: {
+        display: false,
+        position: 'right',
+      },
+      layout: {},
+      tooltips: {},
+    },
+  });
 }
 
 function backgroundColorChange(event) {
