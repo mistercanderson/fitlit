@@ -152,8 +152,6 @@ const generateRandomUser = () => {
 
 const loadFunctions = () => {
   displayWelcome();
-  // renderHydrationChart(currentDate);
-  // renderActivityChart(currentDate);
 };
 
 function displayWelcome() {
@@ -183,36 +181,65 @@ function renderCharts(date, event) {
   }
 }
 
+
 function renderActivityChart(date) {
-  cards.activity.innerHTML = `<div id="closeButton">❌</div><canvas class="activity-tracker" id="activityChart"></canvas>`
-  const activityElement = document.getElementById('activityChart').getContext('2d');
   const userActivityData = new Activity(currentUser.id, activityData, userData);
   let dailyMiles = userActivityData.calculateDailyMiles((date));
   let dailyMinutesActive = userActivityData.calculateDailyMinutes(date);
   let dailySteps = userActivityData.findDailySteps(date);
-
-  let myBarChart = new Chart(activityElement, {
-    type: 'doughnut',
+  let dailyStairs = userActivityData.findDailyStairs(date);
+  let allUsersStairs = userActivityData.findAllUsersStairsAverage(date);
+  let allUsersSteps = userActivityData.findAllUsersStepsAverage(date);
+  let allUsersMinutes = userActivityData.finAllUsersMinutesAverage(date);
+  
+  cards.activity.innerHTML = `<div id="closeButton">❌</div><p class="activity-tracker">Today you've been active for <strong>${dailyMinutesActive} minutes</strong> and taken taken <strong>${dailySteps} steps</strong> [equivalent to <strong>${dailyMiles} miles</strong>]<canvas class="activity-tracker" id="activityChart"><p>This past week's stats:</p>`
+  const activityElement = document.getElementById('activityChart').getContext('2d');
+  let myActivityChart = new Chart(activityElement, {
+    type: 'bar',
     data: {
-      labels: ['Miles', 'Active Minutes', 'Steps'],
+      labels: ['Stairs', 'Active Minutes', 'Steps'],
       datasets: [{
-        data: [`${dailyMiles}`, `${dailyMinutesActive}`, `${dailySteps}`],
-        backgroundColor: ['#35d0ba', '#ffcd3c', '#ff9234'],
+        label: 'User\'s data',
+        backgroundColor: ["#3cba9f","#e8c3b9","#c45850"],
+        data: [`${dailyStairs}`, `${dailyMinutesActive}`, `${dailySteps}`],
+      }, {
+        label: 'All users\' average data',
+        backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f"],
+        data: [`${allUsersStairs}`,`${allUsersMinutes}`,`${allUsersSteps}`],
       }]
     },
     options: {
+      legend: { display: false },
       title: {
         display: true,
-        text: 'Activities Today',
-        fontStyle: '',
-      },
-      legend: {
-        position: 'right',
-      },
-      layout: {},
-      tooltips: {},
-    },
+        text: 'Personal Stats Compared to All Users\'',
+      }
+    }
   });
+
+  // Donut Chart 
+  // let myBarChart = new Chart(activityElement, {
+  //   type: 'doughnut',
+  //   data: {
+  //     labels: ['Miles', 'Active Minutes', 'Steps'],
+  //     datasets: [{
+  //       data: [`${dailyMiles}`, `${dailyMinutesActive}`, `${dailySteps}`],
+  //       backgroundColor: ['#35d0ba', '#ffcd3c', '#ff9234'],
+  //     }]
+  //   },
+  //   options: {
+  //     title: {
+  //       display: true,
+  //       text: 'Activities Today',
+  //       fontStyle: '',
+  //     },
+  //     legend: {
+  //       position: 'right',
+  //     },
+  //     layout: {},
+  //     tooltips: {},
+  //   },
+  // });
 }
 
 function renderHydrationChart(date) {
