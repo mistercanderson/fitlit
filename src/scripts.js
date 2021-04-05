@@ -166,10 +166,10 @@ function displayWelcome() {
 
 function renderCharts(date, event) {
   Chart.defaults.global.defaultFontColor = 'white';
-  Chart.defaults.global.defaultFontStyle = 'italic';
-  Chart.defaults.global.defaultFontSize = 18;
-  Chart.defaults.global.animationDuration = .5;
-  Chart.defaults.global.animationEasing = 'easeInBounce';
+  // Chart.defaults.global.defaultFontStyle = 'italic';
+  // Chart.defaults.global.defaultFontSize = 18;
+  // Chart.defaults.global.animationDuration = .5;
+  // Chart.defaults.global.animationEasing = 'easeInBounce';
   switch (event.target.id) {
     case 'hydrationStation':
       renderHydrationChart(date)
@@ -242,11 +242,6 @@ function renderHydrationChart(date) {
         text: 'Ounces of Water Consumed',
         fontStyle: '',
       },
-      legend: {
-        position: 'right',
-      },
-      layout: {},
-      tooltips: {},
     },
   });
 }
@@ -271,9 +266,9 @@ function renderSleepChart(date) {
         data: [dailySleepHours, weeklySleepHours, averageSleepHours],
         backgroundColor: ['#301b3f', '#301b3f', '#3c415c'],
         borderColor: 'white',
-        borderWidth: 1,
-        hoverBorderColor: '#b9fffc',
-        hoverBorderWidth: 1
+        borderWidth: 3,
+        // hoverBorderColor: '#b9fffc',
+        // hoverBorderWidth: 1
       }]
     },
     options: {
@@ -288,6 +283,13 @@ function renderSleepChart(date) {
       },
       layout: {},
       tooltips: {},
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          },
+        }]
+      }
     },
   });
   let sleepQualityChart = new Chart(sleepQualityElement, {
@@ -296,9 +298,9 @@ function renderSleepChart(date) {
       labels: ['Quality Today', 'Quality Average This Week', 'Total Average Quality'],
       datasets: [{
         data: [dailySleepQuality, weeklySleepQuality, averageSleepQuality],
-        // color stripes
-        // sleep: #151515 #301b3f #3c415c #b4a5a5
         backgroundColor: ['#b4a5a5', '#b4a5a5', '#3c415c'],
+        borderColor: 'white',
+        borderWidth: 3,
       }]
     },
     options: {
@@ -313,6 +315,13 @@ function renderSleepChart(date) {
       },
       layout: {},
       tooltips: {},
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
     },
   });
 }
