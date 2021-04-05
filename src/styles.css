@@ -131,14 +131,17 @@ main {
 
 .activity-tracker:hover {
   background-color: #d92026;
+  color: white;
 }
 
 .hydration-station:hover {
   background-color: #7579e7;
+  color: white;
 }
 
 .sleep-hygiene:hover {
   background-color: #151515;
+  color: white;
 }
 
 .chart {
