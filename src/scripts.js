@@ -181,7 +181,6 @@ function renderCharts(date, event) {
   }
 }
 
-
 function renderActivityChart(date) {
   const userActivityData = new Activity(currentUser.id, activityData, userData);
   const dailyMiles = userActivityData.calculateDailyMiles((date));
@@ -302,26 +301,29 @@ function renderHydrationChart(date) {
 }
 
 function renderSleepChart(date) {
-  cards.sleep.innerHTML = `<div id="closeButton">❌</div><canvas class="sleep-hygiene chart" id="sleepChart"></canvas>`
-  const sleepElement = document.getElementById('sleepChart').getContext('2d');
-  const userSleepData = new Activity(currentUser.id, activityData, userData);
-  let dailyMiles = userSleepData.calculateDailyMiles((date));
-  let dailyMinutesActive = userSleepData.calculateDailyMinutes(date);
-  let dailySteps = userSleepData.findDailySteps(date);
+  const userSleepData = new Sleep(currentUser.id, sleepData);
+  const dailyHours = userSleepData.calculateAverageHoursTotal(date);
+  const dailyQuality = userSleepData.calculateAverageQualityTotal();
+  const allTimeQuality = userSleepData.calculateGlobalQualityAverage(date);
 
+  cards.sleep.innerHTML = `<div id="closeButton">❌</div>
+  <p class="sleep-hygiene">You've slept <strong> ${dailyHours} hours</strong>, a sleep <strong>quality </strong>of <strong>${dailyQuality}</strong>. Get your beauty sleep!</p> 
+  <canvas class="sleep-hygiene chart" id="sleepChart"></canvas>`
+  
+  const sleepElement = document.getElementById('sleepChart').getContext('2d');
   let myBarChart = new Chart(sleepElement, {
     type: 'doughnut',
     data: {
-      labels: ['Miles', 'Active Minutes', 'Steps'],
+      labels: ['Hours','Quality'],
       datasets: [{
-        data: [`${dailyMiles}`, `${dailyMinutesActive}`, `${dailySteps}`],
-        backgroundColor: ['#35d0ba', '#ffcd3c', '#ff9234'],
+        data: [`${dailyHours}`,`${dailyQuality}`],
+        backgroundColor: ['#301b3f', '#3c415c'],
       }]
     },
     options: {
       title: {
         display: true,
-        text: 'Activities Today',
+        text: 'Sleep Hygiene',
         fontStyle: '',
       },
       legend: {
