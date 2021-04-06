@@ -114,13 +114,13 @@ function cardToggle(event) {
 function returnCardsToDefault(card) {
   switch (true) {
     case card === 'hydration':
-      cards[card].innerHTML = `<h3 class="hydration-station">Hydration Station</h3>`
+      cards[card].innerHTML = `<h3 class="hydration-station">Hydration Station</h3><p><strong>${dailyOunces} oz.</strong> of water consumed today</p><button class="hydration-station">More...</button>`
       break;
     case card === 'activity':
       cards[card].innerHTML = `<h3 class="activity-tracker">Activity Tracker</h3>`
       break;
     case card === 'sleep':
-      cards[card].innerHTML = `<h3 class="sleep-hygiene">Sleep Hygiene</h3>`
+      cards[card].innerHTML = `<h3 class="sleep-hygiene">Sleep Hygiene</h3><p>You slept <strong>${dailySleepHours} hours</strong> today</p><button class="sleep-hygiene">More...</button>`
       break
   }
 }
@@ -152,7 +152,17 @@ const generateRandomUser = () => {
 
 const loadFunctions = () => {
   displayWelcome();
+  displayBasicStats();
 };
+
+function displayBasicStats() {
+  userSleepData = new Sleep(currentUser.id, sleepData);
+  userHydrationData = new Hydration(currentUser.id, hydrationData);
+  dailyOunces = userHydrationData.calculateDailyOunces(currentDate);
+  dailySleepHours = userSleepData.findDailyHours(currentDate)
+  cards.hydration.innerHTML += `<p><strong>${dailyOunces} oz.</strong> of water consumed today</p><button class="hydration-station">More...</button>`
+  cards.sleep.innerHTML += `<p>You slept <strong>${dailySleepHours} hours</strong> today</p><button class="sleep-hygiene">More...</button>`
+}
 
 function displayWelcome() {
   currentUser = generateRandomUser();
@@ -162,12 +172,9 @@ function displayWelcome() {
   <h3>${userRepo.allUsersAverageSteps()} is the average step goal for all FitLit users</h3>`;
 }
 
+
 function renderCharts(date, event) {
   Chart.defaults.global.defaultFontColor = 'white';
-  // Chart.defaults.global.defaultFontStyle = 'italic';
-  // Chart.defaults.global.defaultFontSize = 18;
-  // Chart.defaults.global.animationDuration = .5;
-  // Chart.defaults.global.animationEasing = 'easeInBounce';
   switch (event.target.id) {
     case 'hydrationStation':
       renderHydrationChart(date)
@@ -263,14 +270,16 @@ function renderActivityChart(date) {
   //   },
   // });
 }
+let dailyOunces
+let dailySleepHours;
+let userSleepData;
+let userHydrationData;
 
 function renderHydrationChart(date) {
-  const userHydrationData = new Hydration(currentUser.id, hydrationData);
-  let dailyOunces = userHydrationData.calculateDailyOunces(date);
   let weeklyOunces = userHydrationData.calculateWeeklyOunces(date);
   cards.hydration.innerHTML = `<div id="closeButton">❌</div>
-  <p class="hydration-station">You've had <strong>${dailyOunces} oz.</strong> of water today, and <strong>${weeklyOunces} oz.</strong> this week! Chug! Chug! Chug! Like a fish, baby!</p>
-  <canvas class="hydration-station" id="hydrationChart"></canvas>`;
+        <p class="hydration-station">You've had <strong>${dailyOunces} oz.</strong> of water today, and <strong>${weeklyOunces} oz.</strong> this week! Chug! Chug! Chug! Like a fish, baby!</p>
+        <canvas class="hydration-station" id="hydrationChart"></canvas>`;
   const hydrationElement = document.getElementById('hydrationChart').getContext('2d');
   let hydrationChart = new Chart(hydrationElement, {
     type: 'doughnut',
@@ -279,10 +288,10 @@ function renderHydrationChart(date) {
       datasets: [{
         label: 'Ounces of Water Consumed',
         data: [`${dailyOunces}`, `${weeklyOunces}`],
-        backgroundColor: ['#9ab3f5', '#a3d8f4'],
+        backgroundColor: ['lightSeaGreen', 'royalBlue'],
         borderWidth: 0,
         hoverBorderColor: '#b9fffc',
-        hoverBorderWidth: 1
+        hoverBorderWidth: 1,
       }]
     },
     options: {
@@ -291,33 +300,34 @@ function renderHydrationChart(date) {
         text: 'Ounces of Water Consumed',
         fontStyle: '',
       },
+      legend: {
+        display: true,
+      },
     },
   });
 }
+
 
 function renderSleepChart(date) {
   cards.sleep.innerHTML = `<div id="closeButton">❌</div><canvas class="sleep-hygiene" id="sleepHoursChart"></canvas><canvas class="sleep-hygiene" id="sleepQualityChart"></canvas>`
   const sleepHoursElement = document.getElementById('sleepHoursChart').getContext('2d');
   const sleepQualityElement = document.getElementById('sleepQualityChart').getContext('2d');
-  const userSleepData = new Sleep(currentUser.id, sleepData);
-  let dailySleepHours = userSleepData.findDailyHours(date);
-  let dailySleepQuality = userSleepData.findDailyQuality(date);
-  let weeklySleepHours = userSleepData.calculateAverageHoursWeekly(date);
-  let weeklySleepQuality = userSleepData.calculateAverageQualityWeekly(date);
-  let averageSleepHours = userSleepData.calculateAverageHoursTotal();
-  let averageSleepQuality = userSleepData.calculateAverageQualityTotal();
+  dailySleepHours = userSleepData.findDailyHours(date);
+  const dailySleepQuality = userSleepData.findDailyQuality(date);
+  const weeklySleepHours = userSleepData.calculateAverageHoursWeekly(date);
+  const weeklySleepQuality = userSleepData.calculateAverageQualityWeekly(date);
+  const averageSleepHours = userSleepData.calculateAverageHoursTotal();
+  const averageSleepQuality = userSleepData.calculateAverageQualityTotal();
 
-  let sleepHoursChart = new Chart(sleepHoursElement, {
+  const sleepHoursChart = new Chart(sleepHoursElement, {
     type: 'bar',
     data: {
-      labels: ['Hours Today', 'Hourly Average This Week', 'Total Average Hours'],
+      labels: ['Today', 'Weekly Avg.', 'Total Average'],
       datasets: [{
         data: [dailySleepHours, weeklySleepHours, averageSleepHours],
-        backgroundColor: ['#301b3f', '#301b3f', '#3c415c'],
+        backgroundColor: ['slateBlue', 'slateBlue', 'coral'],
         borderColor: 'white',
-        borderWidth: 3,
-        // hoverBorderColor: '#b9fffc',
-        // hoverBorderWidth: 1
+        borderWidth: 2,
       }]
     },
     options: {
@@ -328,28 +338,36 @@ function renderSleepChart(date) {
       },
       legend: {
         display: false,
-        position: 'right',
       },
       layout: {},
       tooltips: {},
       scales: {
+        xAxes: [{
+          ticks: {
+            autoSkip: false,
+            maxRotation: 0,
+          }
+        }],
         yAxes: [{
           ticks: {
-            beginAtZero: true
+            beginAtZero: true,
           },
+          gridLines: {
+            color: 'lightGrey'
+          }
         }]
       }
     },
   });
-  let sleepQualityChart = new Chart(sleepQualityElement, {
+  const sleepQualityChart = new Chart(sleepQualityElement, {
     type: 'bar',
     data: {
-      labels: ['Quality Today', 'Quality Average This Week', 'Total Average Quality'],
+      labels: ['Today', 'Weekly Avg.', 'Total Average'],
       datasets: [{
         data: [dailySleepQuality, weeklySleepQuality, averageSleepQuality],
-        backgroundColor: ['#b4a5a5', '#b4a5a5', '#3c415c'],
+        backgroundColor: ['papayaWhip', 'papayaWhip', 'cadetBlue'],
         borderColor: 'white',
-        borderWidth: 3,
+        borderWidth: 2,
       }]
     },
     options: {
@@ -360,14 +378,22 @@ function renderSleepChart(date) {
       },
       legend: {
         display: false,
-        position: 'right',
       },
       layout: {},
       tooltips: {},
       scales: {
+        xAxes: [{
+          ticks: {
+            autoSkip: false,
+            maxRotation: 0,
+          }
+        }],
         yAxes: [{
           ticks: {
             beginAtZero: true
+          },
+          gridLines: {
+            color: 'lightGrey'
           }
         }]
       }
@@ -407,12 +433,13 @@ function backgroundColorChange(event) {
       navTabs.style.color = 'white'
       userGreeting.style.color = 'white'
       break;
-    default:
+    case event.target.classList.contains('navigation'):
       body.style.backgroundColor = '#fbe6c2';
       stripe1.style.backgroundColor = '#f0c929'
       stripe2.style.backgroundColor = '#f48b29'
       stripe3.style.backgroundColor = '#ac0d0d'
       navTabs.style.color = 'black'
       userGreeting.style.color = 'black'
+      break
   }
 }
