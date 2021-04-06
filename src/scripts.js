@@ -198,7 +198,7 @@ function renderActivityChart(date) {
   const allUsersSteps = userActivityData.findAllUsersStepsAverage(date);
   const allUsersMinutes = userActivityData.finAllUsersMinutesAverage(date);
 
-  cards.activity.innerHTML = `<div id="closeButton">❌</div><p class="activity-tracker">Today you've been active for <strong>${dailyMinutesActive} minutes</strong> and taken taken <strong>${dailySteps} steps</strong> [equivalent to <strong>${dailyMiles} miles</strong>]<canvas class="activity-tracker" id="activityChart"><p>This past week's stats:</p>`
+  cards.activity.innerHTML = `<div class="navigation" id="closeButton">❌</div><p class="activity-tracker">Today you've been active for <strong>${dailyMinutesActive} minutes</strong> and taken taken <strong>${dailySteps} steps</strong> [equivalent to <strong>${dailyMiles} miles</strong>]<canvas class="activity-tracker" id="activityChart"><p>This past week's stats:</p>`
   
   const activityElement = document.getElementById('activityChart').getContext('2d');
   const myActivityChart = new Chart(activityElement, {
@@ -277,7 +277,7 @@ let userHydrationData;
 
 function renderHydrationChart(date) {
   let weeklyOunces = userHydrationData.calculateWeeklyOunces(date);
-  cards.hydration.innerHTML = `<div id="closeButton">❌</div>
+  cards.hydration.innerHTML = `<div class="navigation" id="closeButton">❌</div>
         <p class="hydration-station">You've had <strong>${dailyOunces} oz.</strong> of water today, and <strong>${weeklyOunces} oz.</strong> this week! Chug! Chug! Chug! Like a fish, baby!</p>
         <canvas class="hydration-station" id="hydrationChart"></canvas>`;
   const hydrationElement = document.getElementById('hydrationChart').getContext('2d');
@@ -309,7 +309,7 @@ function renderHydrationChart(date) {
 
 
 function renderSleepChart(date) {
-  cards.sleep.innerHTML = `<div id="closeButton">❌</div><canvas class="sleep-hygiene" id="sleepHoursChart"></canvas><canvas class="sleep-hygiene" id="sleepQualityChart"></canvas>`
+  cards.sleep.innerHTML = `<div class="navigation" id="closeButton">❌</div><canvas class="sleep-hygiene" id="sleepHoursChart"></canvas><canvas class="sleep-hygiene" id="sleepQualityChart"></canvas>`
   const sleepHoursElement = document.getElementById('sleepHoursChart').getContext('2d');
   const sleepQualityElement = document.getElementById('sleepQualityChart').getContext('2d');
   dailySleepHours = userSleepData.findDailyHours(date);
