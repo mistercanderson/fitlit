@@ -31,9 +31,12 @@ class Activity {
     return this.findDay(date).numSteps;
   }
 
+  findDailyStairs(date) {
+    return this.findDay(date).flightsOfStairs;
+  }
+
   calculateDailyMinutes(date) {
     let minutesActive = this.userData.filter(user => user.date === date);
-    // console.log(this.userInformation)
     return minutesActive[0].minutesActive;
   }
 
