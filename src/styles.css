@@ -96,15 +96,21 @@ main {
 .data-block {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   border-radius: 10px;
   height: 100%;
   width: 100%;
-  background-color: rgba(194, 202, 193, 0.774);
-  color: rgba(0, 0, 0, 0.600);
+  background-color: rgba(54, 58, 53, 0.774);
+  /* color: rgba(0, 0, 0, 0.600); */
+  color: white;
   border: .1em solid transparent;
-  cursor: pointer
+  cursor: pointer;
+  transition: background-color 0.3s linear
+}
+
+button {
+  pointer-events: none;
 }
 
 .data-block:hover {
@@ -123,7 +129,8 @@ main {
   justify-content: space-around;
   align-items: flex-start;
   padding: 2em 1em;
-  color: rgba(0, 0, 0, 0.600)
+  max-width: 30em;
+  /* color: rgba(0, 0, 0, 0.600) */
 }
 
 .user-card>div {
@@ -133,7 +140,7 @@ main {
 
 .activity-tracker:hover {
   background-color: #d92026;
-  color: white
+  color: white;
 }
 
 .hydration-station:hover {
@@ -160,12 +167,13 @@ main {
 
 .chart>p {
   font-weight: 100;
-  margin: 1em;
+  margin: 0;
 }
 
-.chart>canvas {
+/* .chart>canvas {
   width: 100px;
-}
+} */
+
 
 .hidden {
   display: none!important;
