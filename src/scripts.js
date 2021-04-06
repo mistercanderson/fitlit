@@ -96,7 +96,7 @@ function cardToggle(event) {
           cards[cardKey].classList.add('hidden');
         }
       });
-      break
+      break;
     case 'closeButton':
       cardKeys.forEach(cardKey => {
         if (cardKey === 'user') {
@@ -117,7 +117,7 @@ function returnCardsToDefault(card) {
       cards[card].innerHTML = `<h3 class="hydration-station">Hydration Station</h3><p><strong>${dailyOunces} oz.</strong> of water consumed today</p><button class="hydration-station">More...</button>`
       break;
     case card === 'activity':
-      cards[card].innerHTML = `<h3 class="activity-tracker">Activity Tracker</h3>`
+      cards[card].innerHTML = `<h3 class="activity-tracker">Activity Tracker</h3><p>You have taken <strong>${dailySteps} steps</strong> today</p><button class="activity-tracker">More...</button>` 
       break;
     case card === 'sleep':
       cards[card].innerHTML = `<h3 class="sleep-hygiene">Sleep Hygiene</h3><p>You slept <strong>${dailySleepHours} hours</strong> today</p><button class="sleep-hygiene">More...</button>`
@@ -158,10 +158,14 @@ const loadFunctions = () => {
 function displayBasicStats() {
   userSleepData = new Sleep(currentUser.id, sleepData);
   userHydrationData = new Hydration(currentUser.id, hydrationData);
+  userActivityData = new Activity(currentUser.id, activityData, userData);
   dailyOunces = userHydrationData.calculateDailyOunces(currentDate);
-  dailySleepHours = userSleepData.findDailyHours(currentDate)
+  dailySleepHours = userSleepData.findDailyHours(currentDate);
+  dailySteps = userActivityData.findDailySteps(currentDate);
+  
   cards.hydration.innerHTML += `<p><strong>${dailyOunces} oz.</strong> of water consumed today</p><button class="hydration-station">More...</button>`
   cards.sleep.innerHTML += `<p>You slept <strong>${dailySleepHours} hours</strong> today</p><button class="sleep-hygiene">More...</button>`
+  cards.activity.innerHTML += `<p>You have taken <strong>${dailySteps} steps</strong> today</p><button class="activity-tracker">More...</button>`   
 }
 
 function displayWelcome() {
@@ -245,35 +249,13 @@ function renderActivityChart(date) {
       }
     }
   });
-
-  // Donut Chart 
-  // let myBarChart = new Chart(activityElement, {
-  //   type: 'doughnut',
-  //   data: {
-  //     labels: ['Miles', 'Active Minutes', 'Steps'],
-  //     datasets: [{
-  //       data: [`${dailyMiles}`, `${dailyMinutesActive}`, `${dailySteps}`],
-  //       backgroundColor: ['#35d0ba', '#ffcd3c', '#ff9234'],
-  //     }]
-  //   },
-  //   options: {
-  //     title: {
-  //       display: true,
-  //       text: 'Activities Today',
-  //       fontStyle: '',
-  //     },
-  //     legend: {
-  //       position: 'right',
-  //     },
-  //     layout: {},
-  //     tooltips: {},
-  //   },
-  // });
 }
-let dailyOunces
+let dailyOunces;
 let dailySleepHours;
 let userSleepData;
 let userHydrationData;
+let dailySteps;
+let userActivityData;
 
 function renderHydrationChart(date) {
   let weeklyOunces = userHydrationData.calculateWeeklyOunces(date);
