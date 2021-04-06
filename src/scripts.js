@@ -24,7 +24,7 @@ window.addEventListener('mouseover', (event) => backgroundColorChange(event));
 
 function clickFunctions(user, event) {
   displayUserInfo(user, event);
-  renderCharts(currentDate, event)
+  renderCharts(currentDate, event);
 }
 
 function displayUserInfo(user, event) {
@@ -71,7 +71,7 @@ function cardToggle(event) {
       cardKeys.forEach(cardKey => {
         if (cardKey === 'activity') {
           cards[cardKey].classList.remove('hidden');
-          cards[cardKey].classList.add('chart')
+          cards[cardKey].classList.add('chart');
         } else {
           cards[cardKey].classList.add('hidden');
         }
@@ -81,7 +81,7 @@ function cardToggle(event) {
       cardKeys.forEach(cardKey => {
         if (cardKey === 'hydration') {
           cards[cardKey].classList.remove('hidden');
-          cards[cardKey].classList.add('chart')
+          cards[cardKey].classList.add('chart');
         } else {
           cards[cardKey].classList.add('hidden');
         }
@@ -91,7 +91,7 @@ function cardToggle(event) {
       cardKeys.forEach(cardKey => {
         if (cardKey === 'sleep') {
           cards[cardKey].classList.remove('hidden');
-          cards[cardKey].classList.add('chart')
+          cards[cardKey].classList.add('chart');
         } else {
           cards[cardKey].classList.add('hidden');
         }
@@ -103,8 +103,8 @@ function cardToggle(event) {
           cards[cardKey].classList.add('hidden');
         } else {
           cards[cardKey].classList.remove('hidden');
-          cards[cardKey].classList.remove('chart')
-          returnCardsToDefault(cardKey)
+          cards[cardKey].classList.remove('chart');
+          returnCardsToDefault(cardKey);
         }
       });
       break;
@@ -117,11 +117,11 @@ function returnCardsToDefault(card) {
       cards[card].innerHTML = `<h3 class="hydration-station">Hydration Station</h3><p><strong>${dailyOunces} oz.</strong> of water consumed today</p><button class="hydration-station">More...</button>`
       break;
     case card === 'activity':
-      cards[card].innerHTML = `<h3 class="activity-tracker">Activity Tracker</h3><p>You have taken <strong>${dailySteps} steps</strong> today</p><button class="activity-tracker">More...</button>` 
+      cards[card].innerHTML = `<h3 class="activity-tracker">Activity Tracker</h3><p>You have taken <strong>${dailySteps} steps</strong> today <p>[equivalent to ${dailyMiles} miles]</p></p><button class="activity-tracker">More...</button>` 
       break;
     case card === 'sleep':
       cards[card].innerHTML = `<h3 class="sleep-hygiene">Sleep Hygiene</h3><p>You slept <strong>${dailySleepHours} hours</strong> today</p><button class="sleep-hygiene">More...</button>`
-      break
+      break;
   }
 }
 
@@ -162,10 +162,11 @@ function displayBasicStats() {
   dailyOunces = userHydrationData.calculateDailyOunces(currentDate);
   dailySleepHours = userSleepData.findDailyHours(currentDate);
   dailySteps = userActivityData.findDailySteps(currentDate);
+  dailyMiles = userActivityData.calculateDailyMiles(currentDate);
   
   cards.hydration.innerHTML += `<p><strong>${dailyOunces} oz.</strong> of water consumed today</p><button class="hydration-station">More...</button>`
   cards.sleep.innerHTML += `<p>You slept <strong>${dailySleepHours} hours</strong> today</p><button class="sleep-hygiene">More...</button>`
-  cards.activity.innerHTML += `<p>You have taken <strong>${dailySteps} steps</strong> today</p><button class="activity-tracker">More...</button>`   
+  cards.activity.innerHTML += `<p>You have taken <strong>${dailySteps} steps</strong> today <p>[equivalent to ${dailyMiles} miles]</p></p><button class="activity-tracker">More...</button>`   
 }
 
 function displayWelcome() {
@@ -181,18 +182,19 @@ function renderCharts(date, event) {
   Chart.defaults.global.defaultFontColor = 'white';
   switch (event.target.id) {
     case 'hydrationStation':
-      renderHydrationChart(date)
+      renderHydrationChart(date);
       break;
     case 'activityTracker':
-      renderActivityChart(date)
+      renderActivityChart(date);
       break;
     case 'sleepHygiene':
-      renderSleepChart(date)
+      renderSleepChart(date);
       break;
   }
 }
 
 function renderActivityChart(date) {
+  cards.activity.innerHTML = `<div id="closeButton">❌</div><canvas class="sleep-hygiene" id="activityChart"Chart"></canvas><canvas class="sleep-hygiene" id="activityChart2"></canvas>`
   const userActivityData = new Activity(currentUser.id, activityData, userData);
   const dailyMiles = userActivityData.calculateDailyMiles((date));
   const dailyMinutesActive = userActivityData.calculateDailyMinutes(date);
@@ -202,36 +204,72 @@ function renderActivityChart(date) {
   const allUsersSteps = userActivityData.findAllUsersStepsAverage(date);
   const allUsersMinutes = userActivityData.finAllUsersMinutesAverage(date);
 
-  cards.activity.innerHTML = `<div id="closeButton">❌</div><p class="activity-tracker">Today you've been active for <strong>${dailyMinutesActive} minutes</strong> and taken taken <strong>${dailySteps} steps</strong> [equivalent to <strong>${dailyMiles} miles</strong>]<canvas class="activity-tracker" id="activityChart"><p>This past week's stats:</p>`
   
+  // cards.activity.innerHTML = `<div id="closeButton">❌</div><p class="activity-tracker">Today you've been active for <strong>${dailyMinutesActive} minutes</strong> and taken taken <strong>${dailySteps} steps</strong> [equivalent to <strong>${dailyMiles} miles</strong><canvas class="activity-tracker" id="activityChart"></canvus><canvas class="activity-tracker" id="activityChart2"></canvas>`
+
   const activityElement = document.getElementById('activityChart').getContext('2d');
+  const activityElement2 = document.getElementById('activityChart2').getContext('2d');
   const myActivityChart = new Chart(activityElement, {
     type: 'bar',
     data: {
-      labels: ['Flights of Stairs', 'Active Minutes', 'Steps'],
+      labels: ['Flights of Stairs', 'Active Minutes'],
       datasets: [{
         label: 'User\'s data',
-        backgroundColor: ['#35d0ba','#35d0ba','#35d0ba'],
-        data: [`${dailyStairs}`, `${dailyMinutesActive}`, `${dailySteps}`],
+        backgroundColor: ['#35d0ba','#35d0ba'],
+        data: [dailyStairs, dailyMinutesActive],
+        borderColor: 'white',
+        borderWidth: 2,
       }, {
-        label: 'All users\' average data',
+        label: 'Average of FitLit users',
         backgroundColor: ['#ffcd3c','#ffcd3c','#ffcd3c'],
-        data: [`${allUsersStairs}`,`${allUsersMinutes}`,`${allUsersSteps}`],
+        data: [allUsersStairs,allUsersMinutes],
       }]
     },
     options: {
       title: {
         display: true,
-        text: 'How Do You Square Up?',
-      },
-      tooltips: {
-        enabled: true
-      },
-      hover: {
-        animationDuration: 1
+        text: 'Latest Day Comparison',
       },
       animation: {
-      duration: 1,
+      // duration: 1,
+      onComplete: function() {
+        var chartInstance = this.chart,
+          ctx = chartInstance.ctx;
+          ctx.textAlign = 'center';
+          ctx.fillStyle = "rgb(255,255,255)";
+          ctx.textBaseline = 'bottom';
+          this.data.datasets.forEach((dataset, i) => {
+            var meta = chartInstance.controller.getDatasetMeta(i);
+            meta.data.forEach((bar, index) => {
+              var data = dataset.data[index];
+              ctx.fillText(data, bar._model.x, bar._model.y - 5);
+            });
+          });
+        }
+      }
+    }
+  });
+  const myActivityChart2 = new Chart(activityElement2, {
+    type: 'bar',
+    data: {
+      labels: ['Steps'],
+      datasets: [{
+        label: 'User\'s data',
+        backgroundColor: ['#35d0ba'],
+        data: [dailySteps],
+      }, {
+        label: 'Average of FitLit users',
+        backgroundColor: ['#ffcd3c'],
+        data: [allUsersSteps],
+      }]
+    },
+    options: {
+      // title: {
+      //   display: true,
+      //   text: 'Latest Day Comparison',
+      // },
+      animation: {
+      // duration: 1,
       onComplete: function() {
         var chartInstance = this.chart,
           ctx = chartInstance.ctx;
@@ -288,7 +326,6 @@ function renderHydrationChart(date) {
     },
   });
 }
-
 
 function renderSleepChart(date) {
   cards.sleep.innerHTML = `<div id="closeButton">❌</div><canvas class="sleep-hygiene" id="sleepHoursChart"></canvas><canvas class="sleep-hygiene" id="sleepQualityChart"></canvas>`
