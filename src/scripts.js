@@ -396,10 +396,10 @@ function renderSleepChart(date) {
   const sleepHoursChart = new Chart(sleepHoursElement, {
     type: 'bar',
     data: {
-      labels: ['Today', 'Weekly Avg.', 'Total Average'],
+      labels: ['Today', 'Weekly Avg.', 'All-Time Avg.'],
       datasets: [{
         data: [dailySleepHours, weeklySleepHours, averageSleepHours],
-        backgroundColor: ['slateBlue', 'slateBlue', 'coral'],
+        backgroundColor: ['slateBlue', 'slateBlue', 'cadetBlue'],
         borderColor: 'white',
         borderWidth: 2,
       }]
@@ -453,7 +453,7 @@ function renderSleepChart(date) {
   const sleepQualityChart = new Chart(sleepQualityElement, {
     type: 'bar',
     data: {
-      labels: ['Today', 'Weekly Avg.', 'Total Average'],
+      labels: ['Today', 'Weekly Avg.', 'All-Time Avg.'],
       datasets: [{
         data: [dailySleepQuality, weeklySleepQuality, averageSleepQuality],
         backgroundColor: ['papayaWhip', 'papayaWhip', 'cadetBlue'],
