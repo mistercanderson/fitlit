@@ -1,6 +1,6 @@
-const userRepo = new UserRepository(userData);
-let currentUser;
 const currentDate = '2019/09/22';
+let userRepo;
+let currentUser;
 let dailyOunces;
 let dailySleepHours;
 let userSleepData;
@@ -8,8 +8,6 @@ let userHydrationData;
 let dailySteps;
 let userActivityData;
 let dailyMiles;
-
-const userAverageSteps = document.querySelector('.user-average-steps');
 
 const navTabs = {
   profile: document.getElementById('profileTab'),
@@ -158,6 +156,7 @@ const generateRandomUser = () => {
 };
 
 const loadFunctions = () => {
+  userRepo = new UserRepository(userData);
   displayWelcome();
   displayBasicStats();
 };
@@ -202,7 +201,6 @@ function renderCharts(date, event) {
 
 function renderActivityChart(date) {
   cards.activity.innerHTML = `<div class="navigation" id="closeButton">❌</div><p>You've walked <strong>${dailyMiles} miles</strong> today!</p><p>Your Daily Activity:</p><canvas class="activity-tracker" id="activityChart"Chart"></canvas><p>Your Steps:</p><canvas class="activity-tracker" id="activityChart2"></canvas>`
-  const userActivityData = new Activity(currentUser.id, activityData, userData);
   const dailyMinutesActive = userActivityData.calculateDailyMinutes(date);
   const dailySteps = userActivityData.findDailySteps(date);
   const dailyStairs = userActivityData.findDailyStairs(date);
@@ -211,7 +209,7 @@ function renderActivityChart(date) {
   const allUsersMinutes = userActivityData.finAllUsersMinutesAverage(date);
   const activityElement = document.getElementById('activityChart').getContext('2d');
   const activityElement2 = document.getElementById('activityChart2').getContext('2d');
-  const myActivityChart = new Chart(activityElement, {
+  new Chart(activityElement, {
     type: 'bar',
     data: {
       labels: ['Flights of Stairs', 'Active Minutes'],
@@ -276,7 +274,8 @@ function renderActivityChart(date) {
       }
     }
   });
-  const myActivityChart2 = new Chart(activityElement2, {
+
+  new Chart(activityElement2, {
     type: 'bar',
     data: {
       labels: ['Your Steps Today', 'Community Average'],
@@ -330,14 +329,13 @@ function renderActivityChart(date) {
   });
 }
 
-
 function renderHydrationChart(date) {
-  let weeklyOunces = userHydrationData.calculateWeeklyOunces(date);
+  const weeklyOunces = userHydrationData.calculateWeeklyOunces(date);
   cards.hydration.innerHTML = `<div class="navigation" id="closeButton">❌</div>
         <p class="hydration-station">You've consumed <strong>${dailyOunces} oz.</strong> of water today, and <strong>${weeklyOunces} oz.</strong> this week!</p><p>Your Water Consumption (Ounces):</p>
         <canvas class="hydration-station" id="hydrationChart"></canvas>`;
   const hydrationElement = document.getElementById('hydrationChart').getContext('2d');
-  const hydrationChart = new Chart(hydrationElement, {
+  new Chart(hydrationElement, {
     type: 'horizontalBar',
     data: {
       labels: [`Today`, `This Week`],
@@ -387,14 +385,13 @@ function renderSleepChart(date) {
   cards.sleep.innerHTML = `<div class="navigation" id="closeButton">❌</div><p>Your Sleep Hours:</p><canvas class="sleep-hygiene" id="sleepHoursChart"></canvas><p>Your Sleep Quality:</p><canvas class="sleep-hygiene" id="sleepQualityChart"></canvas>`
   const sleepHoursElement = document.getElementById('sleepHoursChart').getContext('2d');
   const sleepQualityElement = document.getElementById('sleepQualityChart').getContext('2d');
-  dailySleepHours = userSleepData.findDailyHours(date);
   const dailySleepQuality = userSleepData.findDailyQuality(date);
   const weeklySleepHours = userSleepData.calculateAverageHoursWeekly(date);
   const weeklySleepQuality = userSleepData.calculateAverageQualityWeekly(date);
   const averageSleepHours = userSleepData.calculateAverageHoursTotal();
   const averageSleepQuality = userSleepData.calculateAverageQualityTotal();
 
-  const sleepHoursChart = new Chart(sleepHoursElement, {
+  new Chart(sleepHoursElement, {
     type: 'bar',
     data: {
       labels: ['Today', 'Weekly Avg.', 'All-Time Avg.'],
@@ -451,7 +448,7 @@ function renderSleepChart(date) {
       },
     },
   });
-  const sleepQualityChart = new Chart(sleepQualityElement, {
+  new Chart(sleepQualityElement, {
     type: 'bar',
     data: {
       labels: ['Today', 'Weekly Avg.', 'All-Time Avg.'],
