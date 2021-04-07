@@ -1,13 +1,13 @@
 const currentDate = '2019/09/22';
 let userRepo;
 let currentUser;
+let userActivityData;
+let userHydrationData;
+let userSleepData;
+let dailySteps;
+let dailyMiles;
 let dailyOunces;
 let dailySleepHours;
-let userSleepData;
-let userHydrationData;
-let dailySteps;
-let userActivityData;
-let dailyMiles;
 
 const navTabs = {
   profile: document.getElementById('profileTab'),
@@ -32,14 +32,20 @@ window.addEventListener('mouseover', (event) => backgroundColorChange(event));
 
 function clickFunctions(user, event) {
   displayUserInfo(user, event);
-  displayFriendList(user, event);
-  displayRanking(user, event);
-  displayGoals(user, event);
+  displayFriendList(user);
+  displayRanking();
+  displayGoals();
   renderCharts(currentDate, event);
   cardToggle(event)
 }
 
-function displayUserInfo(user, event) {
+function loadFunctions() {
+  userRepo = new UserRepository(userData);
+  displayWelcome();
+  displayBasicStats();
+};
+
+function displayUserInfo(user) {
   const userKeys = Object.keys(user);
   userKeys.forEach(key => {
     let currentElement = document.getElementById(key);
@@ -66,7 +72,7 @@ function displayUserInfo(user, event) {
   });
 }
 
-function displayFriendList(user, event) {
+function displayFriendList(user) {
   const friendNumbers = user.friends
   const friendList = userRepo.userList.filter(user => friendNumbers.includes(user.id)).map(friend => `<li>${friend.name}</li>`).join(' ')
   cards.friends.innerHTML = `
@@ -75,9 +81,17 @@ function displayFriendList(user, event) {
   `
 }
 
-function displayRanking(user, event) {}
+function displayRanking() {
+  cards.ranking.innerHTML = `
+  <div id="closeButton">❌</div>
+  <p>Coming Soon!</p>`
+}
 
-function displayGoals(user, event) {}
+function displayGoals() {
+ cards.goals.innerHTML = `
+ <div id="closeButton">❌</div>
+ <p>Coming Soon!</p>`
+}
 
 function cardToggle(event) {
   const cardKeys = Object.keys(cards);
@@ -197,20 +211,14 @@ function removeCamelCase(key) {
   return newPhrase.join(' ');
 }
 
-const getRandomNum = (array) => {
+function getRandomNum(array) {
   return Math.floor(Math.random() * array.length);
 };
 
-const generateRandomUser = () => {
+function generateRandomUser() {
   let randomUser = userData[getRandomNum(userData)];
   let user = new User(randomUser);
   return user;
-};
-
-const loadFunctions = () => {
-  userRepo = new UserRepository(userData);
-  displayWelcome();
-  displayBasicStats();
 };
 
 function displayBasicStats() {
