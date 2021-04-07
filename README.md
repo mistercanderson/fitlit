@@ -1,6 +1,7 @@
 # FitLit 
 
 Understand and manage your stress for a more relaxed you with this activity tracker.
+![homepage GIF](https://media.giphy.com/media/vE1JOjzBYfstuQWGNP/giphy.gif)
 
 ## Description
 
@@ -25,7 +26,7 @@ FitLit was designed to be used with various devices and demonstrates:
 - Create an Admin dashboard view, to have the ability to view data from all users 
 
 ## Users can open the app on multiple devices
-
+![mobile view GIF](https://media.giphy.com/media/42QMRNzUAapkuvKxg0/giphy.gif)
 ## Github Pages
 [Click Me!](https://mistercanderson.github.io/fitlit/)
 
