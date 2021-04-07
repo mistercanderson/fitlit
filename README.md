@@ -22,7 +22,7 @@ FitLit was designed to be used with various devices and demonstrates:
 - `open index.html` to open GitHub pages
 
 ## Next Steps
-- Utilize homepage navigation tabs (friends, ranking and goals) 
+- Utilize homepage navigation tabs (ranking and goals) 
 - Create an Admin dashboard view, to have the ability to view data from all users 
 
 ## Users can open the app on multiple devices
