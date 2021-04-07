@@ -1,14 +1,13 @@
-const userRepo = new UserRepository(userData);
-let currentUser;
 const currentDate = '2019/09/22';
+let userRepo;
+let currentUser;
+let userActivityData;
+let userHydrationData;
+let userSleepData;
+let dailySteps;
+let dailyMiles;
 let dailyOunces;
 let dailySleepHours;
-let userSleepData;
-let userHydrationData;
-let dailySteps;
-let userActivityData;
-
-const userAverageSteps = document.querySelector('.user-average-steps');
 
 const navTabs = {
   profile: document.getElementById('profileTab'),
@@ -19,6 +18,9 @@ const navTabs = {
 
 const cards = {
   user: document.getElementById('userCard'),
+  friends: document.getElementById('friendCard'),
+  ranking: document.getElementById('rankingCard'),
+  goals: document.getElementById('goalsCard'),
   activity: document.getElementById('activityTracker'),
   hydration: document.getElementById('hydrationStation'),
   sleep: document.getElementById('sleepHygiene')
@@ -30,10 +32,20 @@ window.addEventListener('mouseover', (event) => backgroundColorChange(event));
 
 function clickFunctions(user, event) {
   displayUserInfo(user, event);
+  displayFriendList(user);
+  displayRanking();
+  displayGoals();
   renderCharts(currentDate, event);
+  cardToggle(event)
 }
 
-function displayUserInfo(user, event) {
+function loadFunctions() {
+  userRepo = new UserRepository(userData);
+  displayWelcome();
+  displayBasicStats();
+};
+
+function displayUserInfo(user) {
   const userKeys = Object.keys(user);
   userKeys.forEach(key => {
     let currentElement = document.getElementById(key);
@@ -58,7 +70,27 @@ function displayUserInfo(user, event) {
         currentElement.innerText += `${removeCamelCase(key)}: ${user[key]}`;
     }
   });
-  cardToggle(event);
+}
+
+function displayFriendList(user) {
+  const friendNumbers = user.friends
+  const friendList = userRepo.userList.filter(user => friendNumbers.includes(user.id)).map(friend => `<li>${friend.name}</li>`).join(' ')
+  cards.friends.innerHTML = `
+  <div id="closeButton">❌</div>
+  <ul class="friend-list">Your FitLit friends are: ${friendList}</ul>
+  `
+}
+
+function displayRanking() {
+  cards.ranking.innerHTML = `
+  <div id="closeButton">❌</div>
+  <p>Coming Soon!</p>`
+}
+
+function displayGoals() {
+ cards.goals.innerHTML = `
+ <div id="closeButton">❌</div>
+ <p>Coming Soon!</p>`
 }
 
 function cardToggle(event) {
@@ -67,6 +99,33 @@ function cardToggle(event) {
     case 'profileTab':
       cardKeys.forEach(cardKey => {
         if (cardKey === 'user') {
+          cards[cardKey].classList.remove('hidden');
+        } else {
+          cards[cardKey].classList.add('hidden');
+        }
+      });
+      break;
+    case 'friendsTab':
+      cardKeys.forEach(cardKey => {
+        if (cardKey === 'friends') {
+          cards[cardKey].classList.remove('hidden');
+        } else {
+          cards[cardKey].classList.add('hidden');
+        }
+      });
+      break;
+    case 'rankingTab':
+      cardKeys.forEach(cardKey => {
+        if (cardKey === 'ranking') {
+          cards[cardKey].classList.remove('hidden');
+        } else {
+          cards[cardKey].classList.add('hidden');
+        }
+      });
+      break;
+    case 'goalsTab':
+      cardKeys.forEach(cardKey => {
+        if (cardKey === 'goals') {
           cards[cardKey].classList.remove('hidden');
         } else {
           cards[cardKey].classList.add('hidden');
@@ -107,6 +166,12 @@ function cardToggle(event) {
       cardKeys.forEach(cardKey => {
         if (cardKey === 'user') {
           cards[cardKey].classList.add('hidden');
+        } else if (cardKey === 'friends') {
+          cards[cardKey].classList.add('hidden')
+        } else if (cardKey === 'ranking') {
+          cards[cardKey].classList.add('hidden')
+        } else if (cardKey === 'goals') {
+          cards[cardKey].classList.add('hidden')
         } else {
           cards[cardKey].classList.remove('hidden');
           cards[cardKey].classList.remove('chart');
@@ -146,19 +211,14 @@ function removeCamelCase(key) {
   return newPhrase.join(' ');
 }
 
-const getRandomNum = (array) => {
+function getRandomNum(array) {
   return Math.floor(Math.random() * array.length);
 };
 
-const generateRandomUser = () => {
+function generateRandomUser() {
   let randomUser = userData[getRandomNum(userData)];
   let user = new User(randomUser);
   return user;
-};
-
-const loadFunctions = () => {
-  displayWelcome();
-  displayBasicStats();
 };
 
 function displayBasicStats() {
@@ -200,8 +260,7 @@ function renderCharts(date, event) {
 }
 
 function renderActivityChart(date) {
-  cards.activity.innerHTML = `<div class="navigation" id="closeButton">❌</div><p>Your Daily Activity:</p><canvas class="activity-tracker" id="activityChart"Chart"></canvas><p>Your Steps:</p><canvas class="activity-tracker" id="activityChart2"></canvas>`
-  const userActivityData = new Activity(currentUser.id, activityData, userData);
+  cards.activity.innerHTML = `<div class="navigation" id="closeButton">❌</div><p>You've walked <strong>${dailyMiles} miles</strong> today!</p><p>Your Daily Activity:</p><canvas class="activity-tracker" id="activityChart"Chart"></canvas><p>Your Steps:</p><canvas class="activity-tracker" id="activityChart2"></canvas>`
   const dailyMinutesActive = userActivityData.calculateDailyMinutes(date);
   const dailySteps = userActivityData.findDailySteps(date);
   const dailyStairs = userActivityData.findDailyStairs(date);
@@ -210,7 +269,7 @@ function renderActivityChart(date) {
   const allUsersMinutes = userActivityData.finAllUsersMinutesAverage(date);
   const activityElement = document.getElementById('activityChart').getContext('2d');
   const activityElement2 = document.getElementById('activityChart2').getContext('2d');
-  const myActivityChart = new Chart(activityElement, {
+  new Chart(activityElement, {
     type: 'bar',
     data: {
       labels: ['Flights of Stairs', 'Active Minutes'],
@@ -275,7 +334,8 @@ function renderActivityChart(date) {
       }
     }
   });
-  const myActivityChart2 = new Chart(activityElement2, {
+
+  new Chart(activityElement2, {
     type: 'bar',
     data: {
       labels: ['Your Steps Today', 'Community Average'],
@@ -329,14 +389,13 @@ function renderActivityChart(date) {
   });
 }
 
-
 function renderHydrationChart(date) {
-  let weeklyOunces = userHydrationData.calculateWeeklyOunces(date);
+  const weeklyOunces = userHydrationData.calculateWeeklyOunces(date);
   cards.hydration.innerHTML = `<div class="navigation" id="closeButton">❌</div>
         <p class="hydration-station">You've consumed <strong>${dailyOunces} oz.</strong> of water today, and <strong>${weeklyOunces} oz.</strong> this week!</p><p>Your Water Consumption (Ounces):</p>
         <canvas class="hydration-station" id="hydrationChart"></canvas>`;
   const hydrationElement = document.getElementById('hydrationChart').getContext('2d');
-  const hydrationChart = new Chart(hydrationElement, {
+  new Chart(hydrationElement, {
     type: 'horizontalBar',
     data: {
       labels: [`Today`, `This Week`],
@@ -386,14 +445,13 @@ function renderSleepChart(date) {
   cards.sleep.innerHTML = `<div class="navigation" id="closeButton">❌</div><p>Your Sleep Hours:</p><canvas class="sleep-hygiene" id="sleepHoursChart"></canvas><p>Your Sleep Quality:</p><canvas class="sleep-hygiene" id="sleepQualityChart"></canvas>`
   const sleepHoursElement = document.getElementById('sleepHoursChart').getContext('2d');
   const sleepQualityElement = document.getElementById('sleepQualityChart').getContext('2d');
-  dailySleepHours = userSleepData.findDailyHours(date);
   const dailySleepQuality = userSleepData.findDailyQuality(date);
   const weeklySleepHours = userSleepData.calculateAverageHoursWeekly(date);
   const weeklySleepQuality = userSleepData.calculateAverageQualityWeekly(date);
   const averageSleepHours = userSleepData.calculateAverageHoursTotal();
   const averageSleepQuality = userSleepData.calculateAverageQualityTotal();
 
-  const sleepHoursChart = new Chart(sleepHoursElement, {
+  new Chart(sleepHoursElement, {
     type: 'bar',
     data: {
       labels: ['Today', 'Weekly Avg.', 'All-Time Avg.'],
@@ -450,7 +508,7 @@ function renderSleepChart(date) {
       },
     },
   });
-  const sleepQualityChart = new Chart(sleepQualityElement, {
+  new Chart(sleepQualityElement, {
     type: 'bar',
     data: {
       labels: ['Today', 'Weekly Avg.', 'All-Time Avg.'],

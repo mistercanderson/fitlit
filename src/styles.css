@@ -1,3 +1,4 @@
+/* Global styling selectors 👇 */
 html {
   height: 100%;
 }
@@ -20,38 +21,8 @@ button {
   background: none;
   border:none;
   color: white;
-  /* border-radius: 10px; */
   pointer-events: none;
   align-self: flex-end;
-
-}
-
-.color-stripes {
-  position: fixed;
-  z-index: -2;
-  width: 150%;
-  height: 200px;
-  display: flex;
-  flex-direction: column;
-  transform: rotate(-20deg) translateY(7em);
-}
-
-.stripe-one {
-  flex-grow: 1;
-  background: #f0c929;
-  transition: background-color 0.6s linear
-}
-
-.stripe-two {
-  flex-grow: 1;
-  background: #f48b29;
-  transition: background-color 0.6s linear
-}
-
-.stripe-three {
-  flex-grow: 1;
-  background: #ac0d0d;
-  transition: background-color 0.6s linear
 }
 
 nav {
@@ -84,6 +55,36 @@ main {
   grid-gap: .8em;
 }
 
+/* Styling for the background stripes 👇 */
+.color-stripes {
+  position: fixed;
+  z-index: -2;
+  width: 150%;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  transform: rotate(-20deg) translateY(7em);
+}
+
+.stripe-one {
+  flex-grow: 1;
+  background: #f0c929;
+  transition: background-color 0.6s linear
+}
+
+.stripe-two {
+  flex-grow: 1;
+  background: #f48b29;
+  transition: background-color 0.6s linear
+}
+
+.stripe-three {
+  flex-grow: 1;
+  background: #ac0d0d;
+  transition: background-color 0.6s linear
+}
+
+/* Styling for user greeting header 👇 */
 .user-greeting {
   font-style: italic;
   letter-spacing: -.03em;
@@ -97,6 +98,7 @@ main {
   font-weight: 100;
 }
 
+/* Styling for all cards/widgets 👇 */
 .data-block {
   display: flex;
   flex-direction: column;
@@ -128,6 +130,7 @@ main {
   font-weight: 100;
 }
 
+/* Styling for navigation tab cards 👇 */
 .user-card {
   display: flex;
   justify-content: space-around;
@@ -141,21 +144,19 @@ main {
   cursor: pointer;
 }
 
-/* .activity-tracker:hover {
-  background-color: #d92026;
-  color: white;
+.friend-list {
+  height: 100%;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-.hydration-station:hover {
-  background-color: #7579e7;
-  color: white;
+.friend-list>li {
+  display: list-item;
 }
 
-.sleep-hygiene:hover {
-  background-color: #151515;
-  color: white;
-} */
-
+/* Styling for charts 👇 */
 .chart {
   padding: 1em;
   max-width: 30em;
@@ -174,6 +175,7 @@ main {
   text-align: center;
 }
 
+/* Hide cards with this 👇 */
 .hidden {
   display: none!important;
 }
