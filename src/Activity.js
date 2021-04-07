@@ -41,7 +41,7 @@ class Activity {
   }
 
   findDay(date) {
-    const day = this.activityData.find(dataPoint => dataPoint.date === date);
+    const day = this.activityData.filter(user => user.userID === this.userId).find(dataPoint => dataPoint.date === date);
     return day;
   }
 
