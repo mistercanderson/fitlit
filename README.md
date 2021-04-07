@@ -1,7 +1,7 @@
 # FitLit 
 
 Understand and manage your stress for a more relaxed you with this activity tracker.
-![homepage GIF](https://media.giphy.com/media/vE1JOjzBYfstuQWGNP/giphy.gif)
+![homepage GIF](https://media.giphy.com/media/vE1JOjzBYfstuQWGNP/source.mov)
 
 ## Description
 
