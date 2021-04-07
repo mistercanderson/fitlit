@@ -196,16 +196,13 @@ function renderCharts(date, event) {
 function renderActivityChart(date) {
   cards.activity.innerHTML = `<div id="closeButton">❌</div><canvas class="sleep-hygiene" id="activityChart"Chart"></canvas><canvas class="sleep-hygiene" id="activityChart2"></canvas>`
   const userActivityData = new Activity(currentUser.id, activityData, userData);
-  const dailyMiles = userActivityData.calculateDailyMiles((date));
+  // const dailyMiles = userActivityData.calculateDailyMiles((date));
   const dailyMinutesActive = userActivityData.calculateDailyMinutes(date);
   const dailySteps = userActivityData.findDailySteps(date);
   const dailyStairs = userActivityData.findDailyStairs(date);
   const allUsersStairs = userActivityData.findAllUsersStairsAverage(date);
   const allUsersSteps = userActivityData.findAllUsersStepsAverage(date);
   const allUsersMinutes = userActivityData.finAllUsersMinutesAverage(date);
-
-  
-  // cards.activity.innerHTML = `<div id="closeButton">❌</div><p class="activity-tracker">Today you've been active for <strong>${dailyMinutesActive} minutes</strong> and taken taken <strong>${dailySteps} steps</strong> [equivalent to <strong>${dailyMiles} miles</strong><canvas class="activity-tracker" id="activityChart"></canvus><canvas class="activity-tracker" id="activityChart2"></canvas>`
 
   const activityElement = document.getElementById('activityChart').getContext('2d');
   const activityElement2 = document.getElementById('activityChart2').getContext('2d');
@@ -223,6 +220,8 @@ function renderActivityChart(date) {
         label: 'Average of FitLit users',
         backgroundColor: ['#ffcd3c','#ffcd3c','#ffcd3c'],
         data: [allUsersStairs,allUsersMinutes],
+        borderColor: 'white',
+        borderWidth: 2,
       }]
     },
     options: {
@@ -230,8 +229,21 @@ function renderActivityChart(date) {
         display: true,
         text: 'Latest Day Comparison',
       },
+      scales: {
+        xAxes: [{
+          ticks: {
+            autoSkip: false,
+            maxRotation: 0,
+          }
+        }],
+        yAxes: [{
+          ticks:  {
+            beginAtZero: true
+          },
+        }]
+      },
+      
       animation: {
-      // duration: 1,
       onComplete: function() {
         var chartInstance = this.chart,
           ctx = chartInstance.ctx;
@@ -252,24 +264,35 @@ function renderActivityChart(date) {
   const myActivityChart2 = new Chart(activityElement2, {
     type: 'bar',
     data: {
-      labels: ['Steps'],
+      labels: ['Steps', 'Steps'],
       datasets: [{
-        label: 'User\'s data',
-        backgroundColor: ['#35d0ba'],
-        data: [dailySteps],
-      }, {
-        label: 'Average of FitLit users',
-        backgroundColor: ['#ffcd3c'],
-        data: [allUsersSteps],
+        backgroundColor: ['#35d0ba', '#ffcd3c'],
+        data: [dailySteps, allUsersSteps],
+        borderColor: 'white',
+        borderWidth: 2,
       }]
     },
     options: {
-      // title: {
-      //   display: true,
-      //   text: 'Latest Day Comparison',
-      // },
+      title: {
+        display: false,
+      },
+      legend: {
+        display: false,
+      },
+      scales: {
+        xAxes: [{
+          ticks: {
+            autoSkip: false,
+            maxRotation: 0,
+          }
+        }],
+        yAxes: [{
+          ticks:  {
+            beginAtZero: true
+          },
+        }]
+      },
       animation: {
-      // duration: 1,
       onComplete: function() {
         var chartInstance = this.chart,
           ctx = chartInstance.ctx;
@@ -375,7 +398,23 @@ function renderSleepChart(date) {
             color: 'lightGrey'
           }
         }]
-      }
+      }, 
+      animation: {
+        onComplete: function() {
+          var chartInstance = this.chart,
+            ctx = chartInstance.ctx;
+            ctx.textAlign = 'center';
+            ctx.fillStyle = "rgb(255,255,255)";
+            ctx.textBaseline = 'bottom';
+            this.data.datasets.forEach((dataset, i) => {
+              var meta = chartInstance.controller.getDatasetMeta(i);
+              meta.data.forEach((bar, index) => {
+                var data = dataset.data[index];
+                ctx.fillText(data, bar._model.x, bar._model.y - 5);
+              });
+            });
+          }
+        }
     },
   });
   const sleepQualityChart = new Chart(sleepQualityElement, {
@@ -415,7 +454,23 @@ function renderSleepChart(date) {
             color: 'lightGrey'
           }
         }]
-      }
+      },
+      animation: {
+        onComplete: function() {
+          var chartInstance = this.chart,
+            ctx = chartInstance.ctx;
+            ctx.textAlign = 'center';
+            ctx.fillStyle = "rgb(255,255,255)";
+            ctx.textBaseline = 'bottom';
+            this.data.datasets.forEach((dataset, i) => {
+              var meta = chartInstance.controller.getDatasetMeta(i);
+              meta.data.forEach((bar, index) => {
+                var data = dataset.data[index];
+                ctx.fillText(data, bar._model.x, bar._model.y - 5);
+              });
+            });
+          }
+        }
     },
   });
 }
