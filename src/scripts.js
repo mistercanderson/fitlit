@@ -7,6 +7,7 @@ let userSleepData;
 let userHydrationData;
 let dailySteps;
 let userActivityData;
+let dailyMiles;
 
 const userAverageSteps = document.querySelector('.user-average-steps');
 
@@ -200,7 +201,7 @@ function renderCharts(date, event) {
 }
 
 function renderActivityChart(date) {
-  cards.activity.innerHTML = `<div class="navigation" id="closeButton">❌</div><p>Your Daily Activity:</p><canvas class="activity-tracker" id="activityChart"Chart"></canvas><p>Your Steps:</p><canvas class="activity-tracker" id="activityChart2"></canvas>`
+  cards.activity.innerHTML = `<div class="navigation" id="closeButton">❌</div><p>You've walked <strong>${dailyMiles} miles</strong> today!</p><p>Your Daily Activity:</p><canvas class="activity-tracker" id="activityChart"Chart"></canvas><p>Your Steps:</p><canvas class="activity-tracker" id="activityChart2"></canvas>`
   const userActivityData = new Activity(currentUser.id, activityData, userData);
   const dailyMinutesActive = userActivityData.calculateDailyMinutes(date);
   const dailySteps = userActivityData.findDailySteps(date);
