@@ -33,4 +33,5 @@ FitLit was designed to be used with various devices and demonstrates:
 
 ## Authors
 Chris Anderson [@mistercanderson](https://github.com/mistercanderson)
+
 Melanie Daoheuang [@daomeow](https://github.com/daomeow) 
