@@ -20,10 +20,8 @@ button {
   background: none;
   border:none;
   color: white;
-  /* border-radius: 10px; */
   pointer-events: none;
   align-self: flex-end;
-
 }
 
 .color-stripes {
@@ -141,20 +139,17 @@ main {
   cursor: pointer;
 }
 
-/* .activity-tracker:hover {
-  background-color: #d92026;
-  color: white;
+.friend-list {
+  height: 100%;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-.hydration-station:hover {
-  background-color: #7579e7;
-  color: white;
+.friend-list>li {
+  display: list-item;
 }
-
-.sleep-hygiene:hover {
-  background-color: #151515;
-  color: white;
-} */
 
 .chart {
   padding: 1em;

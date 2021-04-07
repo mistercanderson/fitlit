@@ -18,6 +18,9 @@ const navTabs = {
 
 const cards = {
   user: document.getElementById('userCard'),
+  friends: document.getElementById('friendCard'),
+  ranking: document.getElementById('rankingCard'),
+  goals: document.getElementById('goalsCard'),
   activity: document.getElementById('activityTracker'),
   hydration: document.getElementById('hydrationStation'),
   sleep: document.getElementById('sleepHygiene')
@@ -29,7 +32,11 @@ window.addEventListener('mouseover', (event) => backgroundColorChange(event));
 
 function clickFunctions(user, event) {
   displayUserInfo(user, event);
+  displayFriendList(user, event);
+  displayRanking(user, event);
+  displayGoals(user, event);
   renderCharts(currentDate, event);
+  cardToggle(event)
 }
 
 function displayUserInfo(user, event) {
@@ -57,8 +64,20 @@ function displayUserInfo(user, event) {
         currentElement.innerText += `${removeCamelCase(key)}: ${user[key]}`;
     }
   });
-  cardToggle(event);
 }
+
+function displayFriendList(user, event) {
+  const friendNumbers = user.friends
+  const friendList = userRepo.userList.filter(user => friendNumbers.includes(user.id)).map(friend => `<li>${friend.name}</li>`).join(' ')
+  cards.friends.innerHTML = `
+  <div id="closeButton">❌</div>
+  <ul class="friend-list">Your FitLit friends are: ${friendList}</ul>
+  `
+}
+
+function displayRanking(user, event) {}
+
+function displayGoals(user, event) {}
 
 function cardToggle(event) {
   const cardKeys = Object.keys(cards);
@@ -66,6 +85,33 @@ function cardToggle(event) {
     case 'profileTab':
       cardKeys.forEach(cardKey => {
         if (cardKey === 'user') {
+          cards[cardKey].classList.remove('hidden');
+        } else {
+          cards[cardKey].classList.add('hidden');
+        }
+      });
+      break;
+    case 'friendsTab':
+      cardKeys.forEach(cardKey => {
+        if (cardKey === 'friends') {
+          cards[cardKey].classList.remove('hidden');
+        } else {
+          cards[cardKey].classList.add('hidden');
+        }
+      });
+      break;
+    case 'rankingTab':
+      cardKeys.forEach(cardKey => {
+        if (cardKey === 'ranking') {
+          cards[cardKey].classList.remove('hidden');
+        } else {
+          cards[cardKey].classList.add('hidden');
+        }
+      });
+      break;
+    case 'goalsTab':
+      cardKeys.forEach(cardKey => {
+        if (cardKey === 'goals') {
           cards[cardKey].classList.remove('hidden');
         } else {
           cards[cardKey].classList.add('hidden');
@@ -106,6 +152,12 @@ function cardToggle(event) {
       cardKeys.forEach(cardKey => {
         if (cardKey === 'user') {
           cards[cardKey].classList.add('hidden');
+        } else if (cardKey === 'friends') {
+          cards[cardKey].classList.add('hidden')
+        } else if (cardKey === 'ranking') {
+          cards[cardKey].classList.add('hidden')
+        } else if (cardKey === 'goals') {
+          cards[cardKey].classList.add('hidden')
         } else {
           cards[cardKey].classList.remove('hidden');
           cards[cardKey].classList.remove('chart');
